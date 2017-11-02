@@ -14,7 +14,7 @@ vector< vector<string> > parseCsv(string path) {
     vector<string> data;
     int position = line.find(',');  // Find first comma.
 
-    while (line.find(',') != string::npos) {  // If comma found...
+    while (position != string::npos) {  // If comma found...
       data.push_back(line.substr(0, position));  // Add string from start to comma.
       line.erase(0, position + 1);  // Remove start to comma (inclusive) from line.
       position = line.find(',');  // Find next comma.
