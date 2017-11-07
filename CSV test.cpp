@@ -27,42 +27,56 @@ vector< vector<string> > parseCsv(string path) {
   return csv;
 }
 
+void printCsv(vector< vector<string> > csv, string kind) {
+  cout << endl << endl << kind << endl;
+
+  for (int i = 0; i < csv.size(); i++) {
+    for (int j = 0; j < csv[i].size(); j++) {
+      cout.width(csv[i].size());
+      cout << csv[i][j];
+    }
+
+    cout << endl;
+  }
+}
+
 int main() {
-  cout << "Hello" << endl;
   vector< vector<string> > horses = parseCsv("horses.csv");
   vector< vector<string> > dogs = parseCsv("dogs.csv");
   vector< vector<string> > cats = parseCsv("cats.csv");
 
-  cout << endl << endl << "HORSES:" << endl;
+  cout << "There are " << dogs.size() << " dog(s), ";
+  cout << cats.size() << " cat(s) and ";
+  cout << horses.size() << " horse(s) in the inventory, which are:" << endl;
 
-  for (int i = 0; i < horses.size(); i++) {
-    for (int j = 0; j < horses[i].size(); j++) {
-      cout.width(horses[i].size());
-      cout << horses[i][j];
+  printCsv(dogs, "DOGS: ");
+  printCsv(cats, "CATS: ");
+  printCsv(horses, "HORSES: ");
+
+  bool hasExited = false;
+
+  while (!hasExited) {
+    string query;
+    cout << endl << endl << "Enter the first letter of the animal group and the name of the specified one to find its paternal tree (or type exit): ";
+    cin >> query;
+
+    if (query == "exit") {
+      cout << endl << endl << "Goodbye!" << endl;
+      hasExited = true;
+
+    } else {  // TODO: check validity
+      char animalType = query.at(0);
+      if (animalType == 'a') {
+        cout << "You are searching for any animal." << endl;
+      } else if (animalType == 'd') {
+        cout << "You are searching for a dog." << endl;
+      } else if (animalType == 'c') {
+        cout << "You are searching for a cat." << endl;
+      } else if (animalType == 'h') {
+        cout << "You are searching for a horse." << endl;
+      } else {
+        cout << "Sorry, that is not a valid query. Please try again." << endl;
+      }
     }
-
-    cout << endl;
-  }
-
-  cout << endl << endl << "DOGS:" << endl;
-
-  for (int i = 0; i < dogs.size(); i++) {
-    for (int j = 0; j < dogs[i].size(); j++) {
-      cout.width(dogs[i].size());
-      cout << dogs[i][j];
-    }
-
-    cout << endl;
-  }
-
-  cout << endl << endl << "CATS:" << endl;
-
-  for (int i = 0; i < cats.size(); i++) {
-    for (int j = 0; j < cats[i].size(); j++) {
-      cout.width(cats[i].size());
-      cout << cats[i][j];
-    }
-
-    cout << endl;
   }
 }
