@@ -28,6 +28,7 @@ vector< vector<string> > parseCsv(string path) {
 }
 
 int main() {
+  cout << "Hello" << endl;
   vector< vector<string> > horses = parseCsv("horses.csv");
   vector< vector<string> > dogs = parseCsv("dogs.csv");
   vector< vector<string> > cats = parseCsv("cats.csv");
