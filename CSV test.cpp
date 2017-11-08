@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 using namespace std;
 
@@ -32,8 +33,8 @@ void printCsv(vector< vector<string> > csv, string kind) {
 
   for (int i = 0; i < csv.size(); i++) {
     for (int j = 0; j < csv[i].size(); j++) {
-      cout.width(csv[i].size());
-      cout << csv[i][j];
+      cout << left;
+      cout << setw(10) << csv[i][j];
     }
 
     cout << endl;
@@ -47,7 +48,21 @@ int main() {
 
   cout << "There are " << dogs.size() << " dog(s), ";
   cout << cats.size() << " cat(s) and ";
-  cout << horses.size() << " horse(s) in the inventory, which are:" << endl;
+  cout << horses.size() << " horse(s) in the inventory, which are:" << endl << endl;
+
+  //Possibly find a more effecient way of writing titles. Length of Tail colour a problem for printing.
+  //Need to find a way to underline titles and print out animal type.
+    cout << left;
+    cout << setw(10) << "Name";
+    cout << setw(10) << "Group";
+    cout << setw(10) << "Breed";
+    cout << setw(10) << "Colour";
+    cout << setw(10) << "Ear Type";
+    cout << setw(10) << "Height";
+    cout << setw(15) << "Tail Colour";
+    cout << setw(10) << "Dad";
+    cout << setw(10) << "Mom" << endl;
+    cout << "-----------------------------------------------------------------------------------------" << endl;
 
   printCsv(dogs, "DOGS: ");
   printCsv(cats, "CATS: ");
