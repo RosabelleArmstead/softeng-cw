@@ -42,9 +42,9 @@ void printCsv(vector< vector<string> > csv, string kind) {
 }
 
 int main() {
-  vector< vector<string> > horses = parseCsv("horses.csv");
-  vector< vector<string> > dogs = parseCsv("dogs.csv");
-  vector< vector<string> > cats = parseCsv("cats.csv");
+  vector< vector<string> > horses = parseCsv("data/horses.csv");
+  vector< vector<string> > dogs = parseCsv("data/dogs.csv");
+  vector< vector<string> > cats = parseCsv("data/cats.csv");
 
   cout << "There are " << dogs.size() << " dog(s), ";
   cout << cats.size() << " cat(s) and ";

@@ -57,4 +57,10 @@ Thumbs.db
 
 # Backup files
 *~
-CSV test
+
+# Object files
+Main
+Animal
+Cat
+Dog
+Horse
