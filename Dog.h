@@ -2,16 +2,16 @@
 #ifndef _DOG_
 #define _DOG_
 
-#include <String>
+#include <string>
 using namespace std;
 
 class Dog : public Animal{
 private:
-  String *pFather = NULL;
-  String *pMother = NULL;
+  string *pFather = NULL;
+  string *pMother = NULL;
 
 public:
-  Dog(String name, String breed, String colour, String earType, double height, String tailColour, String father, String mother);
+  Dog(string name, string breed, string colour, string earType, double height, string tailColour, string father, string mother);
   // purpose -- to create a new Dog object
   // input -- The different attributes that an Dog must have including name, breed, colour, Ear Type, height and Tail Colour, father and mother
   // output -- None
@@ -20,20 +20,20 @@ public:
   // input -- None
   // output -- None
 
-  void setFather(String father);
+  void setFather(string father);
   // purpose -- To set the father of a dog
   // input -- the name of the father
   // output -- None
-  *String getFather();
+  *string getFather();
   // purpose -- To get the father of a dog
   // input -- None
   // output -- a pointer to the father
 
-  void setMother(String mother);
+  void setMother(string mother);
   // purpose -- To set the mother of a dog
   // input -- the name of the father
   // output -- None
-  *String getMother();
+  *string getMother();
   // purpose -- To get the mother of a dog
   // input -- the name of the mother
   // output -- None
