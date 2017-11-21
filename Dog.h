@@ -5,7 +5,7 @@
 #include <String>
 using namespace std;
 
-class Dog {
+class Dog : public Animal{
 private:
   String *pFather = NULL;
   String *pMother = NULL;
