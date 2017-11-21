@@ -7,12 +7,12 @@ using namespace std;
 
 class Animal {
 private:
-  string name;
-  string breed;
-  string colour;
-  string earType;
-  double height;
-  string tailColour;
+  string name = new string;
+  string breed = new string;
+  string colour = new string;
+  string earType = new string;
+  double height = new double;
+  string tailColour = new string;
 
 public:
   Animal(string param_name, string param_breed, string param_colour, string param_earType, double param_height, string param_tailColour);
