@@ -15,7 +15,7 @@ private:
   string tailColour;
 
 public:
-  Animal(string name, string breed, string colour, string earType, double height, string tailColour);
+  Animal(string param_name, string param_breed, string param_colour, string param_earType, double param_height, string param_tailColour);
   // purpose -- to create a new Animal object
   // input -- The different attributes that an Animal must have including name, breed, colour, Ear Type, height and Tail Colour
   // output -- None
