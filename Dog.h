@@ -20,20 +20,20 @@ public:
   // input -- None
   // output -- None
 
-  void setFather(string father);
+  void setFather(const Dog father);
   // purpose -- To set the father of a dog
   // input -- the name of the father
   // output -- None
-  *string getFather();
+  *Dog getFather();
   // purpose -- To get the father of a dog
   // input -- None
   // output -- a pointer to the father
 
-  void setMother(string mother);
+  void setMother(const Dog mother);
   // purpose -- To set the mother of a dog
   // input -- the name of the father
   // output -- None
-  *string getMother();
+  *Dog getMother();
   // purpose -- To get the mother of a dog
   // input -- the name of the mother
   // output -- None
