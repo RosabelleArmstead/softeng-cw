@@ -11,7 +11,7 @@ private:
   string breed = new string;
   string colour = new string;
   string earType = new string;
-  double height = new double;
+  int height = new int;
   string tailColour = new string;
 
 public:

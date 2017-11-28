@@ -7,11 +7,11 @@ using namespace std;
 
 class Dog : public Animal{
 private:
-  string *pFather = NULL;
-  string *pMother = NULL;
+  Dog *pFather = NULL;
+  Dog *pMother = NULL;
 
 public:
-  Dog(string name, string breed, string colour, string earType, double height, string tailColour, string father, string mother);
+  Dog(string name, string breed, string colour, string earType, int height, string tailColour, string father, string mother);
   // purpose -- to create a new Dog object
   // input -- The different attributes that an Dog must have including name, breed, colour, Ear Type, height and Tail Colour, father and mother
   // output -- None
