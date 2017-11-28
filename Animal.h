@@ -65,7 +65,7 @@ public:
   // purpose -- to set the height of an Animal
   // input -- the height of the Animal
   // output -- None
-  double getHeight();
+  int getHeight();
   // purpose -- to get the height of an Animal
   // input -- None
   // output -- the height of the Animal
