@@ -1,6 +1,6 @@
 #include "Animal.h"
 
-Animal::Animal(string param_name, string param_breed, string param_colour, string param_earType, int param_height, string param_tailColour){
+Animal::Animal(string param_name, string param_breed, string param_colour, string param_earType, int param_height, string param_tailColour) {
   name = param_name;
   breed = param_breed;
   colour = param_colour;
@@ -9,14 +9,14 @@ Animal::Animal(string param_name, string param_breed, string param_colour, strin
   tailColour = param_tailColour;
 }
 
-inline string Animal::getName() { return name; }
+string Animal::getName() { return name; }
 
-inline string Animal::getBreed() { return breed; }
+string Animal::getBreed() { return breed; }
 
-inline string Animal::getColour() { return colour; }
+string Animal::getColour() { return colour; }
 
-inline string Animal::getEarType() { return earType; }
+string Animal::getEarType() { return earType; }
 
-inline int Animal::getHeight() { return height; }
+int Animal::getHeight() { return height; }
 
-inline string Animal::getTailColour() { return tailColour; }
+string Animal::getTailColour() { return tailColour; }

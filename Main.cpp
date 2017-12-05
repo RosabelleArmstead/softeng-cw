@@ -3,35 +3,17 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include "Animal.h"
+#include "Cat.h"
 
 using namespace std;
 
 
 int main() {
-  bool hasExited = false;
+  Cat* grandfather = new Cat("Donald", "breed", "colour", "ear type", 50, "tail colour", NULL, NULL);
+  Cat* father = new Cat("Bruce", "breed", "colour", "ear type", 50, "tail colour", grandfather, NULL);
+  Cat* child = new Cat("Dave", "breed2", "colour2", "ear type2", 50, "tail colour2", father, NULL);
 
-  while (!hasExited) {
-    string query;
-    cout << endl << endl << "Enter the first letter of the animal group and the name of the specified one to find its paternal tree (or type exit): ";
-    cin >> query;
-
-    if (query == "exit") {
-      cout << endl << endl << "Goodbye!" << endl;
-      hasExited = true;
-
-    } else {  // TODO: check validity
-      char animalType = query.at(0);
-      if (animalType == 'a') {
-        cout << "You are searching for any animal." << endl;
-      } else if (animalType == 'd') {
-        cout << "You are searching for a dog." << endl;
-      } else if (animalType == 'c') {
-        cout << "You are searching for a cat." << endl;
-      } else if (animalType == 'h') {
-        cout << "You are searching for a horse." << endl;
-      } else {
-        cout << "Sorry, that is not a valid query. Please try again." << endl;
-      }
-    }
-  }
+  cout << child->getName() << "'s father is " << child->getFather()->getName() << endl;
+  cout << child->getName() << "'s grandfather is " << child->getFather()->getFather()->getName() << endl;
 }

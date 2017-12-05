@@ -25,40 +25,38 @@ public:
   // input -- None
   // output -- None
 
-  inline string getName();
+  string getName();
   // purpose -- to get the name of an Animal
   // input -- None
   // output -- the name of the Animal
 
-  inline string getBreed();
+  string getBreed();
   // purpose -- to get the breed of an Animal
   // input -- None
   // output -- the breed of the Animal
 
-  inline string getColour();
+  string getColour();
   // purpose -- to get the colour of an Animal
   // input -- None
   // output -- the colour of the Animal
 
-  inline string getEarType();
+  string getEarType();
   // purpose -- to get the Ear Type of an Animal
   // input -- None
   // output -- the Ear Type of the Animal
 
-  inline int getHeight();
+  int getHeight();
   // purpose -- to get the height of an Animal
   // input -- None
   // output -- the height of the Animal
 
-  inline string getTailColour();
+  string getTailColour();
   // purpose -- to get the tail colour of an Animal
   // input -- None
   // output -- the tail colour of the Animal
 
-  virtual void setFather(const Animal param_father);
-  virtual const Animal getFather();
-  virtual Animal setMother(const Animal param_mother);
-  virtual const Animal getMother();
+  virtual Animal* getFather() = 0;
+  virtual Animal* getMother() = 0;
 };
 
 #endif
