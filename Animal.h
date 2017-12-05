@@ -1,21 +1,21 @@
 //Animal.h
 #ifndef ANIMAL
 #define ANIMAL
-
 #include <string>
+
 using namespace std;
 
 class Animal {
 private:
-  string name = new string;
-  string breed = new string;
-  string colour = new string;
-  string earType = new string;
-  int height = new int;
-  string tailColour = new string;
+  string name;
+  string breed;
+  string colour;
+  string earType;
+  int height;
+  string tailColour;
 
 public:
-  Animal(string param_name, string param_breed, string param_colour, string param_earType, double param_height, string param_tailColour);
+  Animal(string param_name, string param_breed, string param_colour, string param_earType, int param_height, string param_tailColour);
   // purpose -- to create a new Animal object
   // input -- The different attributes that an Animal must have including name, breed, colour, Ear Type, height and Tail Colour
   // output -- None

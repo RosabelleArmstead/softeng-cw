@@ -1,6 +1,4 @@
-#include <string>
 #include "Animal.h"
-using namespace std;
 
 Animal::Animal(string param_name, string param_breed, string param_colour, string param_earType, int param_height, string param_tailColour){
   name = param_name;
@@ -19,6 +17,6 @@ inline string Animal::getColour() { return colour; }
 
 inline string Animal::getEarType() { return earType; }
 
-inline string Animal::getHeight() { return height; }
+inline int Animal::getHeight() { return height; }
 
 inline string Animal::getTailColour() { return tailColour; }
