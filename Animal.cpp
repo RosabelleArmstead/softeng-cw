@@ -10,3 +10,15 @@ Animal::Animal(string param_name, string param_breed, string param_colour, strin
   height = param_height;
   tailColour = param_tailColour;
 }
+
+inline string Animal::getName() { return name; }
+
+inline string Animal::getBreed() { return breed; }
+
+inline string Animal::getColour() { return colour; }
+
+inline string Animal::getEarType() { return earType; }
+
+inline string Animal::getHeight() { return height; }
+
+inline string Animal::getTailColour() { return tailColour; }

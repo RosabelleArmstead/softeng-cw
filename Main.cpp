@@ -6,68 +6,8 @@
 
 using namespace std;
 
-vector< vector<string> > parseCsv(string path) {
-  ifstream file(path);
-  vector< vector<string> > csv;
-  string line;
-
-  while (file >> line) {  // Loop through each line.
-    vector<string> data;
-    int position = line.find(',');  // Find first comma.
-
-    while (position != string::npos) {  // If comma found...
-      data.push_back(line.substr(0, position));  // Add string from start to comma.
-      line.erase(0, position + 1);  // Remove start to comma (inclusive) from line.
-      position = line.find(',');  // Find next comma.
-    }
-
-    data.push_back(line);  // Add final field.
-    csv.push_back(data);  // Add list of field strings.
-  }
-
-  return csv;
-}
-
-void printCsv(vector< vector<string> > csv, string kind) {
-  cout << endl << endl << kind << endl;
-
-  for (int i = 0; i < csv.size(); i++) {
-    for (int j = 0; j < csv[i].size(); j++) {
-      cout << left;
-      cout << setw(10) << csv[i][j];
-    }
-
-    cout << endl;
-  }
-}
 
 int main() {
-  vector< vector<string> > horses = parseCsv("data/horses.csv");
-  vector< vector<string> > dogs = parseCsv("data/dogs.csv");
-  vector< vector<string> > cats = parseCsv("data/cats.csv");
-
-  cout << "There are " << dogs.size() << " dog(s), ";
-  cout << cats.size() << " cat(s) and ";
-  cout << horses.size() << " horse(s) in the inventory, which are:" << endl << endl;
-
-  //Possibly find a more effecient way of writing titles. Length of Tail colour a problem for printing.
-  //Need to find a way to underline titles and print out animal type.
-    cout << left;
-    cout << setw(10) << "Name";
-    cout << setw(10) << "Group";
-    cout << setw(10) << "Breed";
-    cout << setw(10) << "Colour";
-    cout << setw(10) << "Ear Type";
-    cout << setw(10) << "Height";
-    cout << setw(15) << "Tail Colour";
-    cout << setw(10) << "Dad";
-    cout << setw(10) << "Mom" << endl;
-    cout << "-----------------------------------------------------------------------------------------" << endl;
-
-  printCsv(dogs, "DOGS: ");
-  printCsv(cats, "CATS: ");
-  printCsv(horses, "HORSES: ");
-
   bool hasExited = false;
 
   while (!hasExited) {

@@ -1,6 +1,6 @@
 //Cat.h
-#ifndef _CAT_
-#define _CAT_
+#ifndef CAT
+#define CAT
 
 #include <string>
 using namespace std;
@@ -20,20 +20,20 @@ public:
   // input -- None
   // output -- None
 
-  void setFather(const Cat father);
+  //void setFather(const Cat father);
   // purpose -- To set the father of a cat
   // input -- the name of the father
   // output -- None
-  *Cat getFather();
+  //*Cat getFather();
   // purpose -- To get the father of a cat
   // input -- None
   // output -- a pointer to the father
 
-  void setMother(const Cat mother);
+  //void setMother(const Cat mother);
   // purpose -- To set the mother of a cat
   // input -- the name of the father
   // output -- None
-  *Cat getMother();
+  //*Cat getMother();
   // purpose -- To get the mother of a cat
   // input -- the name of the mother
   // output -- None

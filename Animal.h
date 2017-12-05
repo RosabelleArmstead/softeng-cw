@@ -1,6 +1,6 @@
 //Animal.h
-#ifndef _ANIMAL_
-#define _ANIMAL_
+#ifndef ANIMAL
+#define ANIMAL
 
 #include <string>
 using namespace std;
@@ -25,32 +25,32 @@ public:
   // input -- None
   // output -- None
 
-  string getName();
+  inline string getName();
   // purpose -- to get the name of an Animal
   // input -- None
   // output -- the name of the Animal
 
-  string getBreed();
+  inline string getBreed();
   // purpose -- to get the breed of an Animal
   // input -- None
   // output -- the breed of the Animal
 
-  string getColour();
+  inline string getColour();
   // purpose -- to get the colour of an Animal
   // input -- None
   // output -- the colour of the Animal
 
-  string getEarType();
+  inline string getEarType();
   // purpose -- to get the Ear Type of an Animal
   // input -- None
   // output -- the Ear Type of the Animal
 
-  int getHeight();
+  inline int getHeight();
   // purpose -- to get the height of an Animal
   // input -- None
   // output -- the height of the Animal
 
-  string getTailColour();
+  inline string getTailColour();
   // purpose -- to get the tail colour of an Animal
   // input -- None
   // output -- the tail colour of the Animal
