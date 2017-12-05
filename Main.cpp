@@ -10,10 +10,17 @@ using namespace std;
 
 
 int main() {
-  Cat* grandfather = new Cat("Donald", "breed", "colour", "ear type", 50, "tail colour", NULL, NULL);
-  Cat* father = new Cat("Bruce", "breed", "colour", "ear type", 50, "tail colour", grandfather, NULL);
-  Cat* child = new Cat("Dave", "breed2", "colour2", "ear type2", 50, "tail colour2", father, NULL);
+  Cat* greatgreatgrandfather = new Cat("Harry", "", "", "", 0, "", NULL, NULL);
+  Cat* greatgrandfather = new Cat("Dan", "", "", "", 0, "", greatgreatgrandfather, NULL);
+  Cat* grandfather = new Cat("Donald", "", "", "", 0, "", greatgrandfather, NULL);
+  Cat* father = new Cat("Bruce", "", "", "", 0, "", grandfather, NULL);
+  Cat* child = new Cat("Dave", "", "", "", 0, "", father, NULL);
 
-  cout << child->getName() << "'s father is " << child->getFather()->getName() << endl;
-  cout << child->getName() << "'s grandfather is " << child->getFather()->getFather()->getName() << endl;
+  cout << "Paternal tree of " << child->getName() << ":" << endl << child->getName() << " <-- ";
+  Animal* currentChild = child;
+  while (currentChild->getFather() != NULL) {
+    currentChild = currentChild->getFather();
+    cout << currentChild->getName() << " <-- ";
+  }
+  cout << "[END]" << endl;
 }
