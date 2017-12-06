@@ -12,7 +12,8 @@ class Cat : public Animal {
     Cat *pMother;
   
   public:
-    Cat(string name, string breed, string colour, string earType, int height, string tailColour, Cat* father, Cat* mother);
+    Cat(string name, string breed, string colour, string earType, int height,
+        string tailColour, Cat* father, Cat* mother);
     // purpose -- to create a new Cat object
     // input -- The different attributes that an Cat must have including name, breed, colour, Ear Type, height and Tail Colour, father and mother
     // output -- None
@@ -21,8 +22,9 @@ class Cat : public Animal {
     // input -- None
     // output -- None
 
-   Animal* getFather();
-   Animal* getMother();
+    inline Animal* getFather() { return pFather; }
+    inline Animal* getMother() { return pMother; }
+    inline const string getAnimalType() { return "Cat"; }
 
 };
 #endif

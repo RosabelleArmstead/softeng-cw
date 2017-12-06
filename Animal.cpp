@@ -1,6 +1,11 @@
 #include "Animal.h"
+#include <iostream>
+using namespace std;
 
-Animal::Animal(string param_name, string param_breed, string param_colour, string param_earType, int param_height, string param_tailColour) {
+Animal::Animal(string param_name, string param_breed, string param_colour,
+               string param_earType, int param_height,
+               string param_tailColour) {
+
   name = param_name;
   breed = param_breed;
   colour = param_colour;
@@ -9,14 +14,16 @@ Animal::Animal(string param_name, string param_breed, string param_colour, strin
   tailColour = param_tailColour;
 }
 
-string Animal::getName() { return name; }
+string Animal::getPaternalTree() {
+  string fatherTree = "[END]";
 
-string Animal::getBreed() { return breed; }
+  if (getFather() != NULL) {
+    fatherTree = getFather()->getPaternalTree();
+  }
 
-string Animal::getColour() { return colour; }
+  return name + " <-- " + fatherTree;
+}
 
-string Animal::getEarType() { return earType; }
-
-int Animal::getHeight() { return height; }
-
-string Animal::getTailColour() { return tailColour; }
+Animal::~Animal() {
+  //cout << "Animal destructor" << endl;
+}
