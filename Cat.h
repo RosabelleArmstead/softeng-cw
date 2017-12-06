@@ -12,7 +12,7 @@ class Cat : public Animal {
     Cat *pMother;
   
   public:
-    Cat(string name, string breed, string colour, string earType, int height,
+    Cat(string name, string breed, string colour, string earType, string height,
         string tailColour, Cat* father, Cat* mother);
     // purpose -- to create a new Cat object
     // input -- The different attributes that an Cat must have including name, breed, colour, Ear Type, height and Tail Colour, father and mother

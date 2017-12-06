@@ -12,12 +12,12 @@ class Animal {
     string breed;
     string colour;
     string earType;
-    int height;
+    string height;
     string tailColour;
   
   public:
     Animal(string param_name, string param_breed, string param_colour,
-           string param_earType, int param_height, string param_tailColour);
+           string param_earType, string param_height, string param_tailColour);
 
     virtual ~Animal();
 
@@ -29,7 +29,7 @@ class Animal {
 
     inline string getEarType() { return earType; }
 
-    inline int getHeight() { return height; }
+    inline string getHeight() { return height; }
 
     inline string getTailColour() { return tailColour; }
 

@@ -3,7 +3,7 @@
 using namespace std;
 
 Animal::Animal(string param_name, string param_breed, string param_colour,
-               string param_earType, int param_height,
+               string param_earType, string param_height,
                string param_tailColour) {
 
   name = param_name;

@@ -48,15 +48,49 @@ list<AnimalType> loadData(string path) {
       }
     }
 
-    animals.push_back(AnimalType(fields[1], fields[0], fields[2], fields[3], 0, fields[5], father, mother));
+    animals.push_back(AnimalType(fields[1], fields[0], fields[2], fields[3], fields[4], fields[5], father, mother));
   }
 
   return animals;
 }
 
+template <class AnimalType>
+void printList(list<AnimalType> animals) {
+  cout << left;
+  cout << setw(10) << "Name";
+  cout << setw(10) << "Group";
+  cout << setw(10) << "Breed";
+  cout << setw(10) << "Colour";
+  cout << setw(10) << "Ear Type";
+  cout << setw(10) << "Height";
+  cout << setw(15) << "Tail Colour";
+  cout << setw(10) << "Dad";
+  cout << setw(10) << "Mom" << endl;
+  cout << "-----------------------------------------------------------------------------------------" << endl;
+
+  for (auto animal : animals) {
+    cout << left;
+    cout << setw(10) << animal.getName();
+    cout << setw(10) << animal.getAnimalType();
+    cout << setw(10) << animal.getBreed();
+    cout << setw(10) << animal.getColour();
+    cout << setw(10) << animal.getEarType();
+    cout << setw(10) << animal.getHeight();
+    cout << setw(15) << animal.getTailColour();
+    string father = "N/A";
+    string mother = "N/A";
+    if (animal.getFather() != NULL) { father = animal.getFather()->getName(); }
+    if (animal.getMother() != NULL) { mother = animal.getMother()->getName(); }
+    cout << setw(10) << father;
+    cout << setw(10) << mother << endl;
+  }
+}
+
 int main() {
   list<Cat> cats = loadData<Cat>("data/cats.csv");
-  for (auto cat : cats) {
-    cout << cat.getPaternalTree() << endl;
-  }
+
+  printList(cats);
+  
+  cout << endl << endl << "Paternal tree for " << cats.back().getName() << endl;
+  cout << cats.back().getPaternalTree() << endl;
 }
