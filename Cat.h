@@ -10,7 +10,7 @@ class Cat : public Animal {
   private:
     Cat *pFather;
     Cat *pMother;
-  
+
   public:
     Cat(string name, string breed, string colour, string earType, string height,
         string tailColour, Cat* father, Cat* mother);
@@ -23,8 +23,20 @@ class Cat : public Animal {
     // output -- None
 
     inline Animal* getFather() { return pFather; }
+    // purpose -- to return a pointer to the father of the cat
+    // input -- None
+    // output -- A pointer to the Cat's father
+
     inline Animal* getMother() { return pMother; }
+    // purpose -- to return a pointer to the mother of the Cat
+    // input -- None
+    // output --  A pointer to the Cat's mother
+
     inline const string getAnimalType() { return "Cat"; }
+    // purpose -- to return the animal type to easily display when needed
+    // input -- None
+    // output -- A string naming the animal type 'Cat'
+
 
 };
 #endif
