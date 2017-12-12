@@ -33,7 +33,7 @@ list<AnimalType> loadData(string path) {
     AnimalType* mother = NULL;
 
     if (fields[6].length() > 0) {
-      for (auto& animal : animals) {
+      for (Animal& animal : animals) {
         if (animal.getName() == fields[6]) {
           father = &animal;
         }
@@ -41,7 +41,7 @@ list<AnimalType> loadData(string path) {
     }
 
     if (fields[7].length() > 0) {
-      for (auto& animal : animals) {
+      for (Animal& animal : animals) {
         if (animal.getName() == fields[7]) {
           mother = &animal;
         }
@@ -68,7 +68,7 @@ void printList(list<AnimalType> animals) {
   cout << setw(10) << "Mom" << endl;
   cout << "-----------------------------------------------------------------------------------------" << endl;
 
-  for (auto animal : animals) {
+  for (Animal animal : animals) {
     cout << left;
     cout << setw(10) << animal.getName();
     cout << setw(10) << animal.getAnimalType();
