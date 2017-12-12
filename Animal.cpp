@@ -10,7 +10,11 @@ Animal::Animal(string param_name, string param_breed, string param_colour,
   breed = param_breed;
   colour = param_colour;
   earType = param_earType;
-  height = param_height;
+  if (param_height < 0) {
+    throw invalid_argument();
+  } else {
+      height = param_height;
+  }
   tailColour = param_tailColour;
 }
 
