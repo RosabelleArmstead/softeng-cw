@@ -87,10 +87,14 @@ void printList(list<AnimalType> animals) {
 }
 
 int main() {
+  try{
   list<Cat> cats = loadData<Cat>("data/cats.csv");
+} catch(invalid_argument& e){
+  cerr << "Invalid Argument:" << e.what() << endl;
+}
 
   printList(cats);
-  
+
   cout << endl << endl << "Paternal tree for " << cats.back().getName() << endl;
   cout << cats.back().getPaternalTree() << endl;
 }
