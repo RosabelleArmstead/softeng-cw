@@ -20,9 +20,9 @@ using namespace std;
 
 Animal::Animal(string name, string breed, string colour,
                string earType, string height,
-               string tailColour) : param_name(name), param_breed(breed), string param_colour(colour),
-               string param_earType(earType),
-               string param_tailColour(tailColour) {param_height < 0 ? throw invalid_argument() : height = param_height}
+               string tailColour) : name(name), breed(breed), colour(colour),
+               earType(earType), height(height),
+               tailColour(tailColour) {}
 
 
 string Animal::getPaternalTree() {
