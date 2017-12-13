@@ -27,7 +27,7 @@ void loadData(list<T>& animals, string path) {
       int fieldNo = 0;
       int position = line.find(',');
 
-      while (position != string::npos) {
+      while (position != -1) {
         fields[fieldNo] = line.substr(0, position);
         line.erase(0, position + 1);
         position = line.find(',');
