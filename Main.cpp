@@ -9,6 +9,7 @@
 #include <string>
 #include <stdio.h>
 #include <exception>
+#include <iomanip>
 
 using namespace std;
 
@@ -59,7 +60,7 @@ void loadData(list<AnimalType>& animals, string path) {
     }
   }
 }
-
+/*
 void printHeader() {
   printf("%-10s %-7s %-10s %-10s %-10s %-7s %-12s %-10s %-10s\n", "Name",
          "Group", "Breed", "Colour", "Ear Type", "Height", "Tail Colour",
@@ -67,10 +68,56 @@ void printHeader() {
   cout << "------------------------------------------------------------------";
   cout << "-------------------------" << endl;
 }
+*/
+void printHeader() {
+  cout << left;
+  cout << setw(11) << "Name";
+  cout << setw(8) << "Group";
+  cout << setw(11) << "Breed";
+  cout << setw(11) << "Colour";
+  cout << setw(11) << "Ear Type";
+  cout << setw(8) << "Height";
+  cout << setw(13) << "Tail Colour";
+  cout << setw(11) << "Dad";
+  cout << setw(11) << "Mom" << endl;
+  cout << "------------------------------------------------------------------";
+  cout << "-------------------------" << endl;
+}
+
 
 template <class AnimalType>
 void printList(const list<AnimalType>& animals) {
   for (AnimalType animal : animals) {
+    string fatherstring;
+    string motherstring;
+
+    if(animal.getFather() == NULL){
+      fatherstring = "N/A";
+    }
+    else{
+      fatherstring = animal.getFather()->getName().c_str();
+    }
+
+    if(animal.getMother() == NULL){
+      motherstring = "N/A";
+    }
+    else{
+      motherstring = animal.getMother()->getName().c_str();
+    }
+
+    cout << left;
+    cout << setw(11) << animal.getName().c_str();
+    cout << setw(8) << animal.getAnimalType().c_str();
+    cout << setw(11) << animal.getBreed().c_str();
+    cout << setw(11) << animal.getColour().c_str();
+    cout << setw(11) << animal.getEarType().c_str();
+    cout << setw(8) << animal.getHeight().c_str();
+    cout << setw(13) << animal.getTailColour().c_str();
+    cout << setw(11) << fatherstring;
+    cout << setw(11) << motherstring << endl;
+
+
+    /*
     printf("%-10s %-7s %-10s %-10s %-10s %-7s %-12s %-10s %-10s\n",
            animal.getName().c_str(),
            animal.getAnimalType().c_str(),
@@ -80,11 +127,14 @@ void printList(const list<AnimalType>& animals) {
            animal.getHeight().c_str(),
            animal.getTailColour().c_str(),
 
+
+
            animal.getFather() == NULL ? "N/A" :
              animal.getFather()->getName().c_str(),
 
            animal.getMother() == NULL ? "N/A" :
              animal.getMother()->getName().c_str());
+             */
   }
 
   cout << endl;
