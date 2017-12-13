@@ -8,6 +8,7 @@
 #include <list>
 #include <string>
 #include <stdio.h>
+#include <exception>
 
 using namespace std;
 
@@ -16,41 +17,46 @@ void loadData(list<AnimalType>& animals, string path) {
   ifstream file(path);
   string fields[8];
   string line;
+  if(!file){
+    throw failure("File has not been opened correctly.");
+  }
+  else{
 
-  while (file >> line) {
-    int fieldNo = 0;
-    int position = line.find(',');
+    while (file >> line) {
+      int fieldNo = 0;
+      int position = line.find(',');
 
-    while (position != string::npos) {
-      fields[fieldNo] = line.substr(0, position);
-      line.erase(0, position + 1);
-      position = line.find(',');
-      fieldNo++;
-    }
+      while (position != string::npos) {
+        fields[fieldNo] = line.substr(0, position);
+        line.erase(0, position + 1);
+        position = line.find(',');
+        fieldNo++;
+      }
 
-    fields[7] = line;
+      fields[7] = line;
 
-    AnimalType* father = NULL;
-    AnimalType* mother = NULL;
+      AnimalType* father = NULL;
+      AnimalType* mother = NULL;
 
-    if (fields[6].length() > 0) {
-      for (AnimalType& animal : animals) {
-        if (animal.getName() == fields[6]) {
-          father = &animal;
+      if (fields[6].length() > 0) {
+        for (AnimalType& animal : animals) {
+          if (animal.getName() == fields[6]) {
+            father = &animal;
+          }
         }
       }
-    }
 
-    if (fields[7].length() > 0) {
-      for (AnimalType& animal : animals) {
-        if (animal.getName() == fields[7]) {
-          mother = &animal;
+      if (fields[7].length() > 0) {
+        for (AnimalType& animal : animals) {
+          if (animal.getName() == fields[7]) {
+            mother = &animal;
+          }
         }
       }
-    }
 
-    animals.push_back(AnimalType(fields[1], fields[0], fields[2], fields[3],
-                                 fields[4], fields[5], father, mother));
+      animals.push_back(AnimalType(fields[1], fields[0], fields[2], fields[3],
+                                   fields[4], fields[5], father, mother));
+    }
   }
 }
 
@@ -101,6 +107,7 @@ bool findAnimal(const list<AnimalType> animals, const char* name) {
 }
 
 int main() {
+  try{
   list<Cat> cats;
   list<Dog> dogs;
   list<Horse> horses;
@@ -154,6 +161,10 @@ int main() {
       }
     }
   }
+}
+catch(const failure& e){
+  cerr << e.what() << endl;
+}
 
   return 0;
 }
