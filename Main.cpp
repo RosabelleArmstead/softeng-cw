@@ -145,8 +145,11 @@ bool findAnimal(const list<AnimalType> animals, const char* name) {
   bool found = false;
   for (AnimalType animal : animals) {
     if (animal.getName() == name) {
-      printf("\n%s is found in the %s inventory. \nPaternal tree of %s: \n",
+  /*    printf("\n%s is found in the %s inventory. \nPaternal tree of %s: \n",
              name, animal.getAnimalType().c_str(), name);
+*/
+      cout << name << " is found in the " << animal.getAnimalType().c_str() << " inventory." << endl;
+      cout << "Paternal tree of " << name << endl;
 
       animal.printPaternalTree();
       found = true;
@@ -166,8 +169,10 @@ int main() {
   loadData(dogs, "data/dogs.csv");
   loadData(horses, "data/horses.csv");
 
-  printf("There are %1ld dog(s), %1ld cat(s) and %1ld horse(s) in the "
-         "inventory, which are:\n\n", dogs.size(), cats.size(), horses.size());
+  //printf("There are %1ld dog(s), %1ld cat(s) and %1ld horse(s) in the "
+    //     "inventory, which are:\n\n", dogs.size(), cats.size(), horses.size());
+  cout << "There are " << dogs.size() << " dog(s), " << cats.size() <<
+    " cat(s) and " << horses.size() << " horse(s) in the inventory, which are:" << endl<< endl;
 
   printHeader();
   printList(dogs);
@@ -198,7 +203,8 @@ int main() {
         if (!findAnimal<Dog>(dogs, name) && !findAnimal<Cat>(cats, name) &&
             !findAnimal<Horse>(horses, name)) {
 
-          printf("%s was not found in any inventory!", name);
+          //printf("%s was not found in any inventory!", name);
+          cout << name << " was not found in any inventory";
         }
       } else if (type == 'd' && !findAnimal<Dog>(dogs, name)) {
         printf("%s was not found in the inventory within the dogs!", name);
