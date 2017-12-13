@@ -17,10 +17,6 @@ void loadData(list<AnimalType>& animals, string path) {
   ifstream file(path);
   string fields[8];
   string line;
-  if(!file){
-    throw failure("File has not been opened correctly.");
-  }
-  else{
 
     while (file >> line) {
       int fieldNo = 0;
@@ -56,7 +52,6 @@ void loadData(list<AnimalType>& animals, string path) {
 
       animals.push_back(AnimalType(fields[1], fields[0], fields[2], fields[3],
                                    fields[4], fields[5], father, mother));
-    }
   }
 }
 
@@ -107,7 +102,6 @@ bool findAnimal(const list<AnimalType> animals, const char* name) {
 }
 
 int main() {
-  try{
   list<Cat> cats;
   list<Dog> dogs;
   list<Horse> horses;
@@ -161,10 +155,7 @@ int main() {
       }
     }
   }
-}
-catch(const failure& e){
-  cerr << e.what() << endl;
-}
+
 
   return 0;
 }
