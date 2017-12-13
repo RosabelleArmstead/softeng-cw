@@ -2,39 +2,17 @@
 #include <iostream>
 using namespace std;
 
-/*Animal::Animal(string param_name, string param_breed, string param_colour,
-               string param_earType, string param_height,
-               string param_tailColour) {
-
-  name = param_name;
-  breed = param_breed;
-  colour = param_colour;
-  earType = param_earType;
-  if (param_height < 0) {
-    throw invalid_argument();
-  } else {
-      height = param_height;
-  }
-  tailColour = param_tailColour;
-}*/
-
 Animal::Animal(string name, string breed, string colour,
                string earType, string height,
                string tailColour) : name(name), breed(breed), colour(colour),
                earType(earType), height(height),
                tailColour(tailColour) {}
 
-
-string Animal::getPaternalTree() {
-  string fatherTree = "[END]";
-
+void Animal::printPaternalTree() const {
   if (getFather() != NULL) {
-    fatherTree = getFather()->getPaternalTree();
+    cout << name << " <-- ";
+    getFather()->printPaternalTree();
+  } else {
+    cout << name << " <-- [END]";
   }
-
-  return name + " <-- " + fatherTree;
-}
-
-Animal::~Animal() {
-  //cout << "Animal destructor" << endl;
 }

@@ -1,18 +1,19 @@
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <vector>
-#include <list>
-#include <iomanip>
 #include "Animal.h"
 #include "Cat.h"
+#include "Dog.h"
+#include "Horse.h"
+
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <string>
+#include <stdio.h>
 
 using namespace std;
 
 template <class AnimalType>
-list<AnimalType> loadData(string path) {
+void loadData(list<AnimalType>& animals, string path) {
   ifstream file(path);
-  list<AnimalType> animals;
   string fields[8];
   string line;
 
@@ -33,7 +34,7 @@ list<AnimalType> loadData(string path) {
     AnimalType* mother = NULL;
 
     if (fields[6].length() > 0) {
-      for (Animal& animal : animals) {
+      for (AnimalType& animal : animals) {
         if (animal.getName() == fields[6]) {
           father = &animal;
         }
@@ -41,60 +42,118 @@ list<AnimalType> loadData(string path) {
     }
 
     if (fields[7].length() > 0) {
-      for (Animal& animal : animals) {
+      for (AnimalType& animal : animals) {
         if (animal.getName() == fields[7]) {
           mother = &animal;
         }
       }
     }
 
-    animals.push_back(AnimalType(fields[1], fields[0], fields[2], fields[3], fields[4], fields[5], father, mother));
+    animals.push_back(AnimalType(fields[1], fields[0], fields[2], fields[3],
+                                 fields[4], fields[5], father, mother));
   }
+}
 
-  return animals;
+void printHeader() {
+  printf("%-10s %-7s %-10s %-10s %-10s %-7s %-12s %-10s %-10s\n", "Name",
+         "Group", "Breed", "Colour", "Ear Type", "Height", "Tail Colour",
+         "Dad", "Mom");
+  cout << "------------------------------------------------------------------";
+  cout << "-------------------------" << endl;
 }
 
 template <class AnimalType>
-void printList(list<AnimalType> animals) {
-  cout << left;
-  cout << setw(10) << "Name";
-  cout << setw(10) << "Group";
-  cout << setw(10) << "Breed";
-  cout << setw(10) << "Colour";
-  cout << setw(10) << "Ear Type";
-  cout << setw(10) << "Height";
-  cout << setw(15) << "Tail Colour";
-  cout << setw(10) << "Dad";
-  cout << setw(10) << "Mom" << endl;
-  cout << "-----------------------------------------------------------------------------------------" << endl;
+void printList(const list<AnimalType>& animals) {
+  for (AnimalType animal : animals) {
+    printf("%-10s %-7s %-10s %-10s %-10s %-7s %-12s %-10s %-10s\n",
+           animal.getName().c_str(),
+           animal.getAnimalType().c_str(),
+           animal.getBreed().c_str(),
+           animal.getColour().c_str(),
+           animal.getEarType().c_str(),
+           animal.getHeight().c_str(),
+           animal.getTailColour().c_str(),
 
-  for (Animal animal : animals) {
-    cout << left;
-    cout << setw(10) << animal.getName();
-    cout << setw(10) << animal.getAnimalType();
-    cout << setw(10) << animal.getBreed();
-    cout << setw(10) << animal.getColour();
-    cout << setw(10) << animal.getEarType();
-    cout << setw(10) << animal.getHeight();
-    cout << setw(15) << animal.getTailColour();
-    string father = "N/A";
-    string mother = "N/A";
-    if (animal.getFather() != NULL) { father = animal.getFather()->getName(); }
-    if (animal.getMother() != NULL) { mother = animal.getMother()->getName(); }
-    cout << setw(10) << father;
-    cout << setw(10) << mother << endl;
+           animal.getFather() == NULL ? "N/A" :
+             animal.getFather()->getName().c_str(),
+
+           animal.getMother() == NULL ? "N/A" :
+             animal.getMother()->getName().c_str());
   }
+
+  cout << endl;
+}
+
+template <class AnimalType>
+bool findAnimal(const list<AnimalType> animals, const char* name) {
+  bool found = false;
+  for (AnimalType animal : animals) {
+    if (animal.getName() == name) {
+      printf("\n%s is found in the %s inventory. \nPaternal tree of %s: \n",
+             name, animal.getAnimalType().c_str(), name);
+
+      animal.printPaternalTree();
+      found = true;
+    }
+  }
+
+  return found;
 }
 
 int main() {
-  try{
-  list<Cat> cats = loadData<Cat>("data/cats.csv");
-} catch(invalid_argument& e){
-  cerr << "Invalid Argument:" << e.what() << endl;
-}
+  list<Cat> cats;
+  list<Dog> dogs;
+  list<Horse> horses;
 
+  loadData(cats, "data/cats.csv");
+  loadData(dogs, "data/dogs.csv");
+  loadData(horses, "data/horses.csv");
+
+  printf("There are %1ld dog(s), %1ld cat(s) and %1ld horse(s) in the "
+         "inventory, which are:\n\n", dogs.size(), cats.size(), horses.size());
+
+  printHeader();
+  printList(dogs);
   printList(cats);
+  printList(horses);
 
-  cout << endl << endl << "Paternal tree for " << cats.back().getName() << endl;
-  cout << cats.back().getPaternalTree() << endl;
+  bool exited = false;
+
+  while (!exited) {
+    string query;
+    cout << endl << endl;
+    cout << "Enter the first letter of the animal group and the name of the "
+            "specified one to find its paternal tree (or type exit): ";
+
+    getline(cin, query);
+
+    if (query == "exit") {
+      cout << endl << endl << "Goodbye!" << endl;
+      exited = true;
+
+    } else if (query.length() < 3 || query.at(1) != ' ') {
+      cout << "Sorry, that is not a valid query. Please try again.";
+    } else {
+      char type = query.at(0);
+      const char* name = query.substr(2).c_str();
+
+      if (type == 'a') {
+        if (!findAnimal<Dog>(dogs, name) && !findAnimal<Cat>(cats, name) &&
+            !findAnimal<Horse>(horses, name)) {
+
+          printf("%s was not found in any inventory!", name);
+        }
+      } else if (type == 'd' && !findAnimal<Dog>(dogs, name)) {
+        printf("%s was not found in the inventory within the dogs!", name);
+      } else if (type == 'c' && !findAnimal<Cat>(cats, name)) {
+        printf("%s was not found in the inventory within the cats!", name);
+      } else if (type == 'h' && !findAnimal<Horse>(horses, name)) {
+        printf("%s was not found in the inventory within the horses!", name);
+      } else if (type != 'a' && type != 'd' && type != 'c' && type != 'h') {
+        cout << "Sorry, that is not a valid query. Please try again.";
+      }
+    }
+  }
+
+  return 0;
 }

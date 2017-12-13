@@ -17,26 +17,22 @@ class Cat : public Animal {
     // purpose -- to create a new Cat object
     // input -- The different attributes that an Cat must have including name, breed, colour, Ear Type, height and Tail Colour, father and mother
     // output -- None
-    virtual ~Cat();
-    // purpose -- To free up all memory used by an unneeded Cat object
-    // input -- None
-    // output -- None
 
-    inline Animal* getFather() { return pFather; }
+    inline Animal* getFather() const { return pFather; }
     // purpose -- to return a pointer to the father of the cat
     // input -- None
     // output -- A pointer to the Cat's father
 
-    inline Animal* getMother() { return pMother; }
+    inline Animal* getMother() const { return pMother; }
     // purpose -- to return a pointer to the mother of the Cat
     // input -- None
     // output --  A pointer to the Cat's mother
 
-    inline const string getAnimalType() { return "Cat"; }
+    inline const string getAnimalType() const { return "Cat"; }
     // purpose -- to return the animal type to easily display when needed
     // input -- None
     // output -- A string naming the animal type 'Cat'
 
-
 };
+
 #endif
