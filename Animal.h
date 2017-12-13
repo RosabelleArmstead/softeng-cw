@@ -22,42 +22,42 @@ class Animal {
     // input --  the different attributes that an animal must have including name, breed, colour, eartype, height and tailcolour
     // output -- None
 
-    inline string getName() const { return name; }
+    inline const string getName() const { return name; }
     // purpose -- to retrieve the name of an animal
     // input -- None
     // output --  the name of the animal
 
-    inline string getBreed() const { return breed; }
+    inline const string getBreed() const { return breed; }
     // purpose -- to retrieve the breed of an animal
     // input -- None
     // output --  the breed of the animal
 
-    inline string getColour() const { return colour; }
+    inline const string getColour() const { return colour; }
     // purpose -- to retrieve the colour of an animal
     // input -- None
     // output --  the colour of the animal
 
-    inline string getEarType() const { return earType; }
+    inline const string getEarType() const { return earType; }
     // purpose -- to retrieve the ear type of an animal
     // input -- None
     // output --  the ear type of the animal
 
-    inline string getHeight() const { return height; }
+    inline const string getHeight() const { return height; }
     // purpose -- to retrieve the height of an animal
     // input -- None
     // output --  the height of the animal
 
-    inline string getTailColour() const { return tailColour; }
+    inline const string getTailColour() const { return tailColour; }
     // purpose -- to retrieve the tail colour of an animal
     // input -- None
     // output --  the tail colour of the animal
 
-    virtual Animal* getFather() const = 0;
+    virtual const Animal* getFather() const = 0;
     // purpose -- to retrieve the father of a specific animal
     // input -- None
     // output --  the father of an animal which is of the specific type of the animal
 
-    virtual Animal* getMother() const = 0;
+    virtual const Animal* getMother() const = 0;
     // purpose -- to retrieve the mother of a specific animal
     // input -- None
     // output --  the mother of an animal which is of the specific type of the animal

@@ -8,22 +8,22 @@ using namespace std;
 
 class Cat : public Animal {
   private:
-    Cat *pFather;
-    Cat *pMother;
+    const Cat *pFather;
+    const Cat *pMother;
 
   public:
     Cat(string name, string breed, string colour, string earType, string height,
-        string tailColour, Cat* father, Cat* mother);
+        string tailColour, const Cat* father, const Cat* mother);
     // purpose -- to create a new Cat object
     // input -- The different attributes that an Cat must have including name, breed, colour, Ear Type, height and Tail Colour, father and mother
     // output -- None
 
-    inline Animal* getFather() const { return pFather; }
+    inline const Animal* getFather() const { return pFather; }
     // purpose -- to return a pointer to the father of the cat
     // input -- None
     // output -- A pointer to the Cat's father
 
-    inline Animal* getMother() const { return pMother; }
+    inline const Animal* getMother() const { return pMother; }
     // purpose -- to return a pointer to the mother of the Cat
     // input -- None
     // output --  A pointer to the Cat's mother

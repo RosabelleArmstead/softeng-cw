@@ -13,16 +13,16 @@
 
 using namespace std;
 
-template <class AnimalType>
-void loadData(list<AnimalType>& animals, string path) {
+
+template <class T>
+void loadData(list<T>& animals, string path) {
   ifstream file(path);
   string fields[8];
   string line;
   if(!file){
     throw runtime_error("File has not been opened correctly.");
-  }
-  else{
 
+  } else{
     while (file >> line) {
       int fieldNo = 0;
       int position = line.find(',');
@@ -36,27 +36,25 @@ void loadData(list<AnimalType>& animals, string path) {
 
       fields[7] = line;
 
-      AnimalType* father = NULL;
-      AnimalType* mother = NULL;
+      const T* father = NULL;
+      const T* mother = NULL;
 
       if (fields[6].length() > 0) {
-        for (AnimalType& animal : animals) {
-          if (animal.getName() == fields[6]) {
-            father = &animal;
-          }
+        for (typename list<T>::const_iterator i = animals.begin();
+             i != animals.end(); ++i) {
+          if (i->getName() == fields[6]) { father = &*i; }
         }
       }
 
       if (fields[7].length() > 0) {
-        for (AnimalType& animal : animals) {
-          if (animal.getName() == fields[7]) {
-            mother = &animal;
-          }
+        for (typename list<T>::const_iterator i = animals.begin();
+             i != animals.end(); ++i) {
+          if (i->getName() == fields[7]) { mother = &*i; }
         }
       }
 
-      animals.push_back(AnimalType(fields[1], fields[0], fields[2], fields[3],
-                                   fields[4], fields[5], father, mother));
+      animals.push_back(T(fields[1], fields[0], fields[2], fields[3],
+                          fields[4], fields[5], father, mother));
     }
   }
 }
@@ -85,34 +83,30 @@ void printHeader() {
 }
 
 
-template <class AnimalType>
-void printList(const list<AnimalType>& animals) {
-  for (AnimalType animal : animals) {
-    string fatherstring;
-    string motherstring;
+template <class T>
+void printList(const list<T>& animals) {
+  for (typename list<T>::const_iterator i = animals.begin();
+       i != animals.end(); ++i) {
 
-    if(animal.getFather() == NULL){
-      fatherstring = "N/A";
-    }
-    else{
-      fatherstring = animal.getFather()->getName().c_str();
+    string fatherstring = "N/A";
+    string motherstring = "N/A";
+
+    if(i->getFather() != NULL){
+      fatherstring = i->getFather()->getName();
     }
 
-    if(animal.getMother() == NULL){
-      motherstring = "N/A";
-    }
-    else{
-      motherstring = animal.getMother()->getName().c_str();
+    if(i->getMother() != NULL){
+      motherstring = i->getMother()->getName();
     }
 
     cout << left;
-    cout << setw(11) << animal.getName().c_str();
-    cout << setw(8) << animal.getAnimalType().c_str();
-    cout << setw(11) << animal.getBreed().c_str();
-    cout << setw(11) << animal.getColour().c_str();
-    cout << setw(11) << animal.getEarType().c_str();
-    cout << setw(8) << animal.getHeight().c_str();
-    cout << setw(13) << animal.getTailColour().c_str();
+    cout << setw(11) << i->getName();
+    cout << setw(8) << i->getAnimalType();
+    cout << setw(11) << i->getBreed();
+    cout << setw(11) << i->getColour();
+    cout << setw(11) << i->getEarType();
+    cout << setw(8) << i->getHeight();
+    cout << setw(13) << i->getTailColour();
     cout << setw(11) << fatherstring;
     cout << setw(11) << motherstring << endl;
 
@@ -126,12 +120,8 @@ void printList(const list<AnimalType>& animals) {
            animal.getEarType().c_str(),
            animal.getHeight().c_str(),
            animal.getTailColour().c_str(),
-
-
-
            animal.getFather() == NULL ? "N/A" :
              animal.getFather()->getName().c_str(),
-
            animal.getMother() == NULL ? "N/A" :
              animal.getMother()->getName().c_str());
              */
@@ -140,18 +130,20 @@ void printList(const list<AnimalType>& animals) {
   cout << endl;
 }
 
-template <class AnimalType>
-bool findAnimal(const list<AnimalType> animals, const char* name) {
+template <class T>
+bool findAnimal(const list<T> animals, const char* name) {
   bool found = false;
-  for (AnimalType animal : animals) {
-    if (animal.getName() == name) {
+  for (typename list<T>::const_iterator i = animals.begin();
+       i != animals.end(); ++i) {
+
+    if (i->getName() == name) {
   /*    printf("\n%s is found in the %s inventory. \nPaternal tree of %s: \n",
              name, animal.getAnimalType().c_str(), name);
 */
-      cout << name << " is found in the " << animal.getAnimalType().c_str() << " inventory." << endl;
+      cout << name << " is found in the " << i->getAnimalType() << " inventory." << endl;
       cout << "Paternal tree of " << name << endl;
 
-      animal.printPaternalTree();
+      i->printPaternalTree();
       found = true;
     }
   }
@@ -160,14 +152,17 @@ bool findAnimal(const list<AnimalType> animals, const char* name) {
 }
 
 int main() {
-  try{
   list<Cat> cats;
   list<Dog> dogs;
   list<Horse> horses;
 
-  loadData(cats, "data/cats.csv");
-  loadData(dogs, "data/dogs.csv");
-  loadData(horses, "data/horses.csv");
+  try{
+    loadData(cats, "data/cats.csv");
+    loadData(dogs, "data/dogs.csv");
+    loadData(horses, "data/horses.csv");
+  } catch(const exception& e) {
+    cerr << "Exception caught: "<< e.what() << endl;
+  }
 
   //printf("There are %1ld dog(s), %1ld cat(s) and %1ld horse(s) in the "
     //     "inventory, which are:\n\n", dogs.size(), cats.size(), horses.size());
@@ -217,10 +212,6 @@ int main() {
       }
     }
   }
-}
-catch(const exception& e){
-  cerr << "Exception Caught: "<< e.what() << endl;
-}
 
   return 0;
 }

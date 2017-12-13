@@ -6,22 +6,22 @@
 
 class Horse : public Animal {
   private:
-    Horse *pFather;
-    Horse *pMother;
+    const Horse *pFather;
+    const Horse *pMother;
 
   public:
     Horse(string name, string breed, string colour, string earType, string height,
-        string tailColour, Horse* father, Horse* mother);
+        string tailColour, const Horse* father, const Horse* mother);
     // purpose -- to create a new Horse object
     // input -- The different attributes that an Horse must have including name, breed, colour, Ear Type, height and Tail Colour, father and mother
     // output -- None
 
-    inline Animal* getFather() const { return pFather; }
+    inline const Animal* getFather() const { return pFather; }
     // purpose -- to return a pointer to the father of the horse
     // input -- None
     // output -- A pointer to the Horse's father
 
-    inline Animal* getMother() const { return pMother; }
+    inline const Animal* getMother() const { return pMother; }
     // purpose -- to return a pointer to the mother of the Horse
     // input -- None
     // output --  A pointer to the Horse's mother
