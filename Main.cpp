@@ -9,9 +9,10 @@
 #include <stdio.h>
 #include <exception>
 #include <iomanip>
+#include <algorithm>
 
 template <class T>
-void loadData(list<T>& animals, string path);
+void loadData(list<T>& animals, const string& path);
 void printHeader();
 template <class T>
 void printList(const list<T>& animals);
@@ -60,6 +61,7 @@ int main() {
       cout << "Sorry, that is not a valid query. Please try again.";
 
     } else {
+      toLower(query);
       char type = query.at(0);
       string name = query.substr(2);
 
@@ -88,8 +90,8 @@ int main() {
 }
 
 template <class T>
-void loadData(list<T>& animals, string path) {
-  ifstream file(path);
+void loadData(list<T>& animals, const string& path) {
+  ifstream file(path.c_str());
   string fields[8];
   string line;
 
@@ -169,6 +171,7 @@ bool findAnimal(const list<T>& animals, const string& name) {
   for (typename list<T>::const_iterator i = animals.begin();
        i != animals.end(); ++i) {
     string animalName = i->getName();
+    toLower(animalName);
 
     if (animalName == name) {
       cout << i->getName() << " is found in the " << i->getAnimalType()
@@ -182,4 +185,8 @@ bool findAnimal(const list<T>& animals, const string& name) {
   }
 
   return found;
+}
+
+void toLower(string& text) {
+  transform(text.begin(), text.end(), text.begin(), ::tolower);
 }
