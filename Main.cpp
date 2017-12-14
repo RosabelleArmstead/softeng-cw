@@ -51,37 +51,42 @@ int main() {
     cout << endl << endl;
     cout << "Enter the first letter of the animal group and the name of the "
             "specified one to find its paternal tree (or type exit): ";
+
     getline(cin, query);
+    toLower(query);
 
     if (query == "exit") {
       cout << endl << endl << "Goodbye!" << endl;
       exited = true;
 
-    } else if (query.length() < 3 || query.at(1) != ' ') {
-      cout << "Sorry, that is not a valid query. Please try again.";
-
     } else {
-      toLower(query);
-      char type = query.at(0);
-      string name = query.substr(2);
+      try {
+        if (query.length() < 3) {
+          throw invalid_argument("Input must be at least three characters "
+                                 "long.");
+        } else if (query.at(1) != ' ') {
+          throw invalid_argument("Input must be an inventory code followed "
+                                 "by the search query.");
+        }
 
-      if (type == 'a' && !findAnimal<Dog>(dogs, name) &&
-                 !findAnimal<Cat>(cats, name) &&
-                 !findAnimal<Horse>(horses, name)) {
+        char type = query.at(0);
+        string name = query.substr(2);
 
-        cout << name << " was not found in any inventory";
-
-      } else if (type == 'd' && !findAnimal<Dog>(dogs, name)) {
-        cout << name << " was not found in the inventory within the dogs!";
-
-      } else if (type == 'c' && !findAnimal<Cat>(cats, name)) {
-        cout << name << " was not found in the inventory within the cats!";
-
-      } else if (type == 'h' && !findAnimal<Horse>(horses, name)) {
-        cout << name << " was not found in the inventory within the horses!";
-
-      } else if (type != 'a' && type != 'd' && type != 'c' && type != 'h') {
-        cout << "Sorry, that is not a valid query. Please try again.";
+        if (type != 'a' && type != 'd' && type != 'c' && type != 'h') {
+            throw invalid_argument("Input must start with a valid inventory "
+                                   "code.");
+        } else if (type == 'a' && !findAnimal<Dog>(dogs, name) &&
+            !findAnimal<Cat>(cats, name) && !findAnimal<Horse>(horses, name)) {
+          cout << name << " was not found in any inventory";
+        } else if (type == 'd' && !findAnimal<Dog>(dogs, name)) {
+          cout << name << " was not found in the inventory within the dogs!";
+        } else if (type == 'c' && !findAnimal<Cat>(cats, name)) {
+          cout << name << " was not found in the inventory within the cats!";
+        } else if (type == 'h' && !findAnimal<Horse>(horses, name)) {
+          cout << name << " was not found in the inventory within the horses!";
+        }
+      } catch (invalid_argument& e) {
+        cerr << "Sorry, an error occurred: " << e.what();
       }
     }
   }
