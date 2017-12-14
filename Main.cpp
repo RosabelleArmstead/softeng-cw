@@ -6,10 +6,8 @@
 #include <iostream>
 #include <list>
 #include <string>
-#include <stdio.h>
 #include <exception>
 #include <iomanip>
-#include <algorithm>
 
 template <class T>
 void loadData(list<T>& animals, const string& path);
@@ -136,6 +134,8 @@ void loadData(list<T>& animals, const string& path) {
       animals.push_back(T(fields[1], fields[0], fields[2], fields[3],
                           fields[4], fields[5], father, mother));
     }
+
+    file.close();
   }
 }
 
