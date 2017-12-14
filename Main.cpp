@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <exception>
 #include <iomanip>
+#include <algorithm>
 
 template <class T>
 void loadData(list<T>& animals, string path);
@@ -51,29 +52,37 @@ int main() {
     cout << "Enter the first letter of the animal group and the name of the "
             "specified one to find its paternal tree (or type exit): ";
     getline(cin, query);
+    toLower(query);
 
     if (query == "exit") {
       cout << endl << endl << "Goodbye!" << endl;
       exited = true;
+
     } else if (query.length() < 3 || query.at(1) != ' ') {
       cout << "Sorry, that is not a valid query. Please try again.";
+
     } else {
-      toLower(query);
       char type = query.at(0);
-      const string name = query.substr(2);
+      string name = query.substr(2);
 
-      if (type == 'a') {
-        if (!findAnimal<Dog>(dogs, name) && !findAnimal<Cat>(cats, name) &&
-            !findAnimal<Horse>(horses, name)) {
+      if (count_if(name.begin(), name.end(), ::isalpha) != name.size()) {
+        cout << "Sorry, that is not a valid query. Please try again.";
 
-          cout << name << " was not found in any inventory";
-        }
+      } else if (type == 'a' && !findAnimal<Dog>(dogs, name) &&
+                 !findAnimal<Cat>(cats, name) &&
+                 !findAnimal<Horse>(horses, name)) {
+
+        cout << name << " was not found in any inventory";
+
       } else if (type == 'd' && !findAnimal<Dog>(dogs, name)) {
         cout << name << " was not found in the inventory within the dogs!";
+
       } else if (type == 'c' && !findAnimal<Cat>(cats, name)) {
         cout << name << " was not found in the inventory within the cats!";
+
       } else if (type == 'h' && !findAnimal<Horse>(horses, name)) {
         cout << name << " was not found in the inventory within the horses!";
+
       } else if (type != 'a' && type != 'd' && type != 'c' && type != 'h') {
         cout << "Sorry, that is not a valid query. Please try again.";
       }
@@ -182,7 +191,5 @@ bool findAnimal(const list<T>& animals, const string& name) {
 }
 
 void toLower(string& text) {
-  for(int i = 0; text[i]; i++){
-    text[i] = tolower(text[i]);
-  }
+  transform(text.begin(), text.end(), text.begin(), ::tolower);
 }
