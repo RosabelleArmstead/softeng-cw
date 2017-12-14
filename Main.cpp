@@ -184,6 +184,7 @@ bool findAnimal(const list<T>& animals, const string& name) {
       i->printPaternalTree();
 
       found = true;
+      continue;
     }
   }
 
