@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <exception>
 #include <iomanip>
-#include <algorithm>
 
 template <class T>
 void loadData(list<T>& animals, string path);
@@ -52,7 +51,6 @@ int main() {
     cout << "Enter the first letter of the animal group and the name of the "
             "specified one to find its paternal tree (or type exit): ";
     getline(cin, query);
-    toLower(query);
 
     if (query == "exit") {
       cout << endl << endl << "Goodbye!" << endl;
@@ -65,10 +63,7 @@ int main() {
       char type = query.at(0);
       string name = query.substr(2);
 
-      if (count_if(name.begin(), name.end(), ::isalpha) != name.size()) {
-        cout << "Sorry, that is not a valid query. Please try again.";
-
-      } else if (type == 'a' && !findAnimal<Dog>(dogs, name) &&
+      if (type == 'a' && !findAnimal<Dog>(dogs, name) &&
                  !findAnimal<Cat>(cats, name) &&
                  !findAnimal<Horse>(horses, name)) {
 
@@ -174,7 +169,6 @@ bool findAnimal(const list<T>& animals, const string& name) {
   for (typename list<T>::const_iterator i = animals.begin();
        i != animals.end(); ++i) {
     string animalName = i->getName();
-    toLower(animalName);
 
     if (animalName == name) {
       cout << i->getName() << " is found in the " << i->getAnimalType()
@@ -184,13 +178,8 @@ bool findAnimal(const list<T>& animals, const string& name) {
       i->printPaternalTree();
 
       found = true;
-      continue;
     }
   }
 
   return found;
-}
-
-void toLower(string& text) {
-  transform(text.begin(), text.end(), text.begin(), ::tolower);
 }
