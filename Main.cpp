@@ -85,6 +85,7 @@ int main() {
         // spaces, such as 'c charlie the cat', giving the query 'charlie the cat'.
         trimString(query);
 
+        // Ensures that the query starts with a, d, c or h for the inventory they would like to search.
         if (type != 'a' && type != 'd' && type != 'c' && type != 'h') {
             throw invalid_argument("Input must start with a valid inventory code.");
 
@@ -113,6 +114,11 @@ int main() {
   return 0;
 }
 
+// Input   : a list set to a given animal type and the location of the data file
+// Purpose : helper function to read a data file and adds animals by reference
+//           to the provided list using the given data
+// Output  : none.
+// Return  : none.
 template <class T>
 void loadData(list<T>& animals, const string& path) {
   ifstream file(path.c_str());  // ifstream only takes C strings for C++ versions before C++11.
@@ -143,7 +149,7 @@ void loadData(list<T>& animals, const string& path) {
 
       if (fields[6].length() > 0) {  // Animal has father.
         for (typename list<T>::const_iterator i = animals.begin(); i != animals.end(); ++i) {
-          // If existing Animal's getName matches the father field for this record, set father 
+          // If existing Animal's getName matches the father field for this record, set father
           // pointer to the matching Animal's address.
           if (i->getName() == fields[6]) { father = &*i; }
         }
@@ -151,7 +157,7 @@ void loadData(list<T>& animals, const string& path) {
 
       if (fields[7].length() > 0) {  // Animal has mother.
         for (typename list<T>::const_iterator i = animals.begin(); i != animals.end(); ++i) {
-          // If existing Animal's getName matches the mother field for this record, set mother 
+          // If existing Animal's getName matches the mother field for this record, set mother
           // pointer to the matching Animal's address.
           if (i->getName() == fields[7]) { mother = &*i; }
         }
@@ -173,6 +179,7 @@ void loadData(list<T>& animals, const string& path) {
 // Output  : prints headings for Animal lists.
 // Return  : none.
 void printHeader() {
+  // Outputting all of the column names for the table
   cout << left << setw(11) << "Name" << setw(8) << "Group" << setw(11)
        << "Breed" << setw(11) << "Colour" << setw(11) << "Ear Type" << setw(8)
        << "Height" << setw(13) << "Tail Colour" << setw(11) << "Dad"
@@ -187,7 +194,9 @@ void printHeader() {
 // Return  : none.
 template <class T>
 void printList(const list<T>& animals) {
+  // Iterating through the whole list as to ensure all animals are printed
   for (typename list<T>::const_iterator i = animals.begin(); i != animals.end(); ++i) {
+    // Outputting all information for each animal
     cout << left << setw(11) << i->getName()
          << setw(8) << i->getAnimalType()
          << setw(11) << i->getBreed()
@@ -214,6 +223,8 @@ bool findAnimal(const list<T>& animals, const string& query) {
     string animalName = i->getName();
     toLower(animalName);  // Use lowercase animal names for comparing to lowercase query.
 
+    // If animal name given matches an existing animal name, this is told to then
+    // user and it's paternal tree is output
     if (animalName == query) {
       cout << i->getName() << " is found in the " << i->getAnimalType() << " inventory." << endl;
       cout << "Paternal tree of " << i->getName() << endl;
