@@ -8,6 +8,8 @@
 #include <string>
 #include <exception>
 #include <iomanip>
+#include <algorithm>
+#include <sstream>
 
 template <class T>
 void loadData(list<T>& animals, const string& path);
@@ -17,6 +19,7 @@ void printList(const list<T>& animals);
 template <class T>
 bool findAnimal(const list<T>& animals, const string& name);
 void toLower(string& text);
+void trimString(string& text);
 
 using namespace std;
 
@@ -51,6 +54,7 @@ int main() {
             "specified one to find its paternal tree (or type exit): ";
 
     getline(cin, query);
+    trimString(query);  // Remove whitespace at start and end of input.
     toLower(query);
 
     if (query == "exit") {
@@ -62,14 +66,18 @@ int main() {
         if (query.length() < 3) {
           throw invalid_argument("Input must be at least three characters "
                                  "long.");
-        } else if (query.at(1) != ' ') {
+        } else if (!isspace(query.at(1))) {
           throw invalid_argument("Input must be an inventory code followed "
                                  "by the search query.");
         }
 
         char type = query.at(0);
         string name = query.substr(2);
+        // Remove any extra space that was between inventory code and name.
+        // Name MAY include spaces, such as 'charlie the cat'.
+        trimString(name);
 
+        cout << name << endl;
         if (type != 'a' && type != 'd' && type != 'c' && type != 'h') {
             throw invalid_argument("Input must start with a valid inventory "
                                    "code.");
@@ -95,24 +103,24 @@ int main() {
 template <class T>
 void loadData(list<T>& animals, const string& path) {
   ifstream file(path.c_str());
-  string fields[8];
-  string line;
 
-  if (!file) {
-    throw runtime_error("File has not been opened correctly.");
-  } else {
-    while (file >> line) {
+  if (file.is_open()) {
+    string record;
+
+    while (getline(file, record)) {
+      string fields[8];
       int fieldNo = 0;
-      int position = line.find(',');
+      istringstream ss(record);
+      string field;
 
-      while (position != -1) {
-        fields[fieldNo] = line.substr(0, position);
-        line.erase(0, position + 1);
-        position = line.find(',');
+      while (getline(ss, field, ',')) {
+        if (fieldNo > 7) {
+          throw new runtime_error("Record has too many fields!");
+        }
+
+        fields[fieldNo] = field;
         fieldNo++;
       }
-
-      fields[7] = line;
 
       const T* father = NULL;
       const T* mother = NULL;
@@ -129,13 +137,15 @@ void loadData(list<T>& animals, const string& path) {
              i != animals.end(); ++i) {
           if (i->getName() == fields[7]) { mother = &*i; }
         }
-      }
+    }
 
       animals.push_back(T(fields[1], fields[0], fields[2], fields[3],
                           fields[4], fields[5], father, mother));
     }
 
     file.close();
+  } else {
+    throw runtime_error("File has not been opened correctly.");
   }
 }
 
@@ -194,4 +204,9 @@ bool findAnimal(const list<T>& animals, const string& name) {
 
 void toLower(string& text) {
   transform(text.begin(), text.end(), text.begin(), ::tolower);
+}
+
+void trimString(string& text) {
+  text.erase(0, text.find_first_not_of(" \t\n\r\f\v"));
+  text.erase(text.find_last_not_of(" \t\n\r\f\v") + 1);
 }
