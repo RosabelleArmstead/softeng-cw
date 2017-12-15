@@ -14,7 +14,7 @@
 
 using namespace std;
 
-// Declare methods implemented in this file.
+// Declaring methods implemented in this file.
 template <class T>
 void loadData(list<T>& animals, const string& path);
 void printHeader();
@@ -219,6 +219,7 @@ void printList(const list<T>& animals) {
 template <class T>
 bool findAnimal(const list<T>& animals, const string& query) {
   bool found = false;
+  // Iterating through the list of animals provided using an iterator
   for (typename list<T>::const_iterator i = animals.begin(); i != animals.end(); ++i) {
     string animalName = i->getName();
     toLower(animalName);  // Use lowercase animal names for comparing to lowercase query.
