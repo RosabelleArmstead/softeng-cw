@@ -157,7 +157,7 @@ void loadData(list<T>& animals, const string& path) {
         }
     }
 
-      // Create new animal using the record's data and add it to the animal list.
+      // Create new Animal using the record's data and add it to the Animal list.
       animals.push_back(T(fields[1], fields[0], fields[2], fields[3], fields[4], fields[5], father,
                           mother));
     }
@@ -204,7 +204,7 @@ void printList(const list<T>& animals) {
 }
 
 // Input   : Animal list to search by reference, lowercase query by reference.
-// Purpose : prints paternal tree of any Animals whose name matches the query. Case insensitive.
+// Purpose : prints paternal tree of any animals whose name matches the query. Case insensitive.
 // Output  : name of and paternal tree for any matching Animals.
 // Return  : true if any matching Animals found.
 template <class T>
@@ -212,7 +212,7 @@ bool findAnimal(const list<T>& animals, const string& query) {
   bool found = false;
   for (typename list<T>::const_iterator i = animals.begin(); i != animals.end(); ++i) {
     string animalName = i->getName();
-    toLower(animalName);  // Use lowercase Animal names for comparing to lowercase query.
+    toLower(animalName);  // Use lowercase animal names for comparing to lowercase query.
 
     if (animalName == query) {
       cout << i->getName() << " is found in the " << i->getAnimalType() << " inventory." << endl;
