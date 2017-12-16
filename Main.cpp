@@ -140,7 +140,7 @@ void loadData(list<T>& animals, const string& path) {
       // more efficient. More appropriate for our requirements.
       istringstream ss(record);
       string field;
-      cout << record << endl;
+
       while (getline(ss, field, ',')) {  // Use ',' as the delimiter.
         if (fieldNo > 7) {  // Valid animal data files should only have eight fields. Avoid seg fault 11.
           throw new runtime_error("Record has too many fields!");
