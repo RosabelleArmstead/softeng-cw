@@ -1,22 +1,25 @@
+// Animal.cpp
 #include "Animal.h"
 #include <iostream>
-using namespace std;
 
-// Constructor to create an animal object. Explanation included in animal.h
-Animal::Animal(string name, string breed, string colour,
-               string earType, string height,
-               string tailColour) : name(name), breed(breed), colour(colour),
-               earType(earType), height(height),
-               tailColour(tailColour) {}
+// Constructor for all Animals. Data members assigned using member initialisation list.
+Animal::Animal(string name, string breed, string colour, string earType, string height, string tailColour)
+              : name(name), breed(breed), colour(colour), earType(earType), height(height),
+                tailColour(tailColour) {}
 
-// Allows the paternal tree of a given animal to be printed. Explanation inluded in animal.h
+// Input   : None.
+// Purpose : Traverses Animal's paternal tree recursively, using getFather as implemented in derived
+//           classes.
+// Output  : Paternal tree of the Animal.
+// Return  : None.
+// Throw   : None.
 void Animal::printPaternalTree() const {
-  // Finds an animals paternal tree using recursion
+  // If Animal has a father Animal, output Animal's name and call printPaternalTree of father Animal.
   if (getFather() != NULL) {
     cout << name << " <-- ";
     getFather()->printPaternalTree();
   } else {
-    // Base case to allow the recursion to end
+    // Animal does not have a father Animal, so output Animal's name followed by END.
     cout << name << " <-- [END]";
   }
 }
