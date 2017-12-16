@@ -37,9 +37,9 @@ int main() {
   list<Horse> horses;
 
   try{
-    loadData(cats, "data/cats-CR+LF.csv");
-    loadData(dogs, "data/dogs-CR+LF.csv");
-    loadData(horses, "data/horses-CR+LF.csv");
+    loadData(cats, "data/Cats.csv");
+    loadData(dogs, "data/Dogs.csv");
+    loadData(horses, "data/Horses.csv");
 
   } catch(const exception& e) {  // File could not be opened or was invalid.
     cerr << "Exception caught: " << e.what() << endl;
