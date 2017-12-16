@@ -25,14 +25,14 @@ class Horse : public Animal {
     // Output  : None.
     // Return  : Father pointer of type Horse. May be null.
     // Throw   : None.
-    inline const Animal* getFather() const { return pFather; }
+    inline const Horse* getFather() const { return pFather; }
 
     // Input   : None.
     // Purpose : Gets mother pointer as const. Variable pointer, const value.
     // Output  : None.
     // Return  : Mother pointer of type Horse. May be null.
     // Throw   : None.
-    inline const Animal* getMother() const { return pMother; }
+    inline const Horse* getMother() const { return pMother; }
 
     // Input   : None.
     // Purpose : Gets Animal's type as string for printing purposes.

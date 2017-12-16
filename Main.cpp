@@ -266,6 +266,6 @@ void trimString(string& text) {
   // Remove from character 0 to first character (not inclusive) that is not whitespace. Trim left.
   text.erase(0, text.find_first_not_of(" \t\n\r\f\v"));
 
-  // Remove everything after (hence the '+1') the last non-whitespace character. Trim right.
+  // Remove everything after the last non-whitespace character (hence the '+1'). Trim right.
   text.erase(text.find_last_not_of(" \t\n\r\f\v") + 1);
 }

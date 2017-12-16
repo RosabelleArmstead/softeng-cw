@@ -9,12 +9,12 @@ using namespace std;
 class Animal {
   private:
     // All animal types will have these attributes.
-    string name;
-    string breed;
-    string colour;
-    string earType;
-    string height;
-    string tailColour;
+    const string name;
+    const string breed;
+    const string colour;
+    const string earType;
+    const string height;
+    const string tailColour;
 
   public:
     // Input   : All strings required for an Animal--name, breed, colour, ear type, height and tail colour.
@@ -68,6 +68,13 @@ class Animal {
     inline const string getTailColour() const { return tailColour; }
 
     // Input   : None.
+    // Purpose : Declaration for printPaternalTree. Outputs paternal tree of Animal.
+    // Output  : Paternal tree of the Animal.
+    // Return  : None.
+    // Throw   : None.
+    void printPaternalTree() const;
+
+    // Input   : None.
     // Purpose : Gets pointer to Animal's father of the same type. Must be implemented in derived class. Uses
     //           return type relaxation. Pure virtual.
     // Output  : None.
@@ -89,13 +96,6 @@ class Animal {
     // Return  : Animal's name type as const. (E.g. 'Dog'.)
     // Throw   : None.
     virtual const string getAnimalType() const = 0;
-
-    // Input   : None.
-    // Purpose : Declaration for printPaternalTree. Outputs paternal tree of Animal.
-    // Output  : Paternal tree of the Animal.
-    // Return  : None.
-    // Throw   : None.
-    void printPaternalTree() const;
 };
 
 #endif
