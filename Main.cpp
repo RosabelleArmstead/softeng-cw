@@ -37,9 +37,9 @@ int main() {
   list<Horse> horses;
 
   try{
-    loadData(cats, "data/cats.csv");
-    loadData(dogs, "data/dogs.csv");
-    loadData(horses, "data/horses.csv");
+    loadData(cats, "data/cats-CR+LF.csv");
+    loadData(dogs, "data/dogs-CR+LF.csv");
+    loadData(horses, "data/horses-CR+LF.csv");
 
   } catch(const exception& e) {  // File could not be opened or was invalid.
     cerr << "Exception caught: " << e.what() << endl;
@@ -130,7 +130,7 @@ void loadData(list<T>& animals, const string& path) {
   if (file.is_open()) {  // Check that file was opened correctly.
     string record;
 
-    // Read one line at a time into 'record'. '\n' is the default delimiter.
+    // Read one line at a time into record.
     while (getline(file, record)) {
       string fields[8];  // Initialise empty array for record's fields (only eight for animal CSVs).
       int fieldNo = 0;
@@ -140,11 +140,16 @@ void loadData(list<T>& animals, const string& path) {
       // more efficient. More appropriate for our requirements.
       istringstream ss(record);
       string field;
-
+      cout << record << endl;
       while (getline(ss, field, ',')) {  // Use ',' as the delimiter.
         if (fieldNo > 7) {  // Valid animal data files should only have eight fields. Avoid seg fault 11.
           throw new runtime_error("Record has too many fields!");
         }
+
+        // Remove whitespace from field, including possible leftover CR or LF characters.
+        // Also ensures that name matching will work as expected if there are any animal names with spaces.
+        // E.g. ' some name' in the CSV MUST be translated to 'some name' for the findAnimal method to work.
+        trimString(field);
 
         fields[fieldNo] = field;
         fieldNo++;
