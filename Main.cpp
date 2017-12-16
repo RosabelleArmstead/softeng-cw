@@ -95,7 +95,7 @@ int main() {
                                     findAnimal<Horse>(horses, query))) {
 
           // findAnimal only returns true if one or more matches(s) was/were found.
-          cout << query << " was not found in any inventory";
+          cout << query << " was not found in any inventory!";
 
         } else if (type == 'd' && !findAnimal<Dog>(dogs, query)) {
           cout << query << " was not found in the inventory within the dogs!";
