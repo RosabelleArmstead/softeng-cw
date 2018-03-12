@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home_menu"
+        android:title="@string/home_menu">
+
+    </item>
+    <item android:id="@+id/settings_menu"
+        android:title="@string/settings_menu">
+
+    </item>
+
+    <item android:id="@+id/sleep_calendar_menu"
+        android:title="@string/sleep_calendar_menu">
+
+    </item>
+
+    <item android:id="@+id/info_menu"
+        android:title="@string/information_menu">
+
+    </item>
+
+    <item android:id="@+id/test_sleep_review"
+        android:title="@string/sleep_menu">
+
+    </item>
+</menu>
