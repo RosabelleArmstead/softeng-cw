@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Rest Easy</string>
     <string name="change_soundscape">Change preferred soundscape</string>
-    <string name="change_phone_number">Change your phone number</string>
+    <string name="change_email">Change your email</string>
     <string name="change_password">Change your password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="settings">Settings</string>

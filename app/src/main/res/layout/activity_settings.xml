@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:labelFor="@id/edit_phone_number"
-        android:text="@string/change_phone_number"
+        android:text="@string/change_email"
         android:textSize="25sp" />
 
     <EditText
