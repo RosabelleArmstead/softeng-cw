@@ -17,4 +17,8 @@
     <string name="sleep_calendar_menu">Sleep Calendar</string>
     <string name="information_menu">Information</string>
     <string name="sleep_menu">Sleep Review (for testing)</string>
+    <string name="sleep_recorder">Sleep Recorder</string>
+    <string name="start_sleep">START</string>
+    <string name="stop_sleep">STOP</string>
+    <string name="cancel_sleep">CANCEL</string>
 </resources>

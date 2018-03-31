@@ -123,6 +123,10 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 myIntent = new Intent(this, SleepReview.class);
                 startActivity(myIntent);
                 break;
+            case R.id.sleep_recorder:
+                myIntent = new Intent(this, SleepRecorder.class);
+                startActivity(myIntent);
+                break;
         }
         return false;
     }
