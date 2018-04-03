@@ -1,8 +1,13 @@
 package com2027.cw.group7.resteasy;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Handler;
@@ -12,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,8 +33,9 @@ import java.util.TimeZone;
  * Timer was created with help from: https://en.proft.me/2017/11/18/how-create-count-timer-android/
  * Sounds from:  https://www.bensound.com/royalty-free-music/track/relaxing
  * Sound recorder created with help from: http://s2ptech.blogspot.gr/2014/01/how-to-detect-noise-in-android.html
+ * MotionDetector created with help from: https://stackoverflow.com/questions/14574879/how-to-detect-movement-of-an-android-device
  */
-public class SleepRecorder extends AppBaseActivity {
+public class SleepRecorder extends AppBaseActivity implements SensorEventListener {
 
     private Button startSleep, stopSleep; //Buttons for starting and stoping the sleep recording
     private TextView timer; //Displays time elapsed after recording was started
@@ -42,11 +49,20 @@ public class SleepRecorder extends AppBaseActivity {
     private Handler mHandler = new Handler(); //Handler for the runnable
     private SoundMeter mSensor; //Data source
 
-    private int exceedSoundThreshold; //Used to count the ammount of times that the sound amplitude exceeded the threshold set
+    private int exceedSoundThreshold; //Used to count the amount of times that the sound amplitude exceeded the threshold set
 
     private MediaPlayer mp; //Used for playing the soundscape
 
     private long soundscapeStartTime, soundscapeTargetTime; //The start time of the soundscape and the end time, used to stop the soundscape after a certain amount of time
+
+    //Used for motion detection
+    private SensorManager sensorMan;
+    private Sensor accelerometer;
+    private float[] mGravity;
+    private float mAccel;
+    private float mAccelCurrent;
+    private float mAccelLast;
+    private int exceedMovementThreshold;
 
     @Override
     /**
@@ -70,6 +86,14 @@ public class SleepRecorder extends AppBaseActivity {
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
 
         exceedSoundThreshold = 0; // Number of times the sound threshold has been exceeded
+
+        //Used for motion detection
+        sensorMan = (SensorManager)getSystemService(SENSOR_SERVICE);
+        accelerometer = sensorMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+        exceedMovementThreshold = 0;
     }
 
     /**
@@ -127,8 +151,6 @@ public class SleepRecorder extends AppBaseActivity {
                 timer.getText().toString();
                 stop();
                 stopSoundscape();
-                Toast.makeText(getApplicationContext(), timer.getText().toString(),
-                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -152,6 +174,8 @@ public class SleepRecorder extends AppBaseActivity {
             mWakeLock.acquire();
         }
 
+        // Register sensor
+        sensorMan.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         // Runnable(mPollTask) will execute after POLL_INTERVAL
         mHandler.postDelayed(mPollTask, POLL_INTERVAL);
     }
@@ -169,7 +193,7 @@ public class SleepRecorder extends AppBaseActivity {
         mHandler.removeCallbacks(mPollTask); //Remove pending posts of the runnable
         mSensor.stop(); //Stop recording audio
         mRunning = false; //Set the audio monitoring flag to false
-
+        sensorMan.unregisterListener(this);
     }
 
     // Create runnable thread to monitor sound
@@ -196,7 +220,7 @@ public class SleepRecorder extends AppBaseActivity {
         exceedSoundThreshold++;
         startSoundscape();
         // Show alert when noise thersold crossed
-        Toast.makeText(getApplicationContext(), "Sound Thersold Crossed",
+        Toast.makeText(getApplicationContext(), "Sound Thersold Crossed "+ exceedSoundThreshold,
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -217,4 +241,50 @@ public class SleepRecorder extends AppBaseActivity {
         mp.pause();
         mp.seekTo(0);
     }
+    
+    /**
+     * To stop sound from playing and monitoring when activity is no longer in the foreground,
+     * as well as unregistering the Accelerometer listener
+     */
+    protected void onPause() {
+        super.onPause();
+        stopSoundscape();
+        stop();
+        sensorMan.unregisterListener(this);
+    }
+
+    /**
+     * Executed when the Accelerometer sensor values change
+     */
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            mGravity = event.values.clone();
+            // Shake detection
+            float x = mGravity[0];
+            float y = mGravity[1];
+            float z = mGravity[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float)Math.sqrt(x*x + y*y + z*z);
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+
+            //Handle motion detection
+            if(mAccel > 3){
+                exceedMovementThreshold++;
+                startSoundscape();
+                Toast.makeText(getApplicationContext(), "Motion Detected "+ exceedMovementThreshold,
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    /**
+     * This method is required by the Sensor event listener interface
+     */
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // required method
+    }
+
+
 }

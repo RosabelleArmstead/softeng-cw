@@ -3,13 +3,19 @@ package com2027.cw.group7.resteasy;
 import java.io.IOException;
 import android.media.MediaRecorder;
 
+/**
+ * Uses the microphone to record audio
+ *
+ * Created with help from: http://s2ptech.blogspot.gr/2014/01/how-to-detect-noise-in-android.html
+ */
 public class SoundMeter {
-    // This file is used to record voice
-    static final private double EMA_FILTER = 0.6;
 
     private MediaRecorder mRecorder = null;
-    private double mEMA = 0.0;
 
+
+    /**
+     * Start recording
+     */
     public void start() {
 
         if (mRecorder == null) {
@@ -23,18 +29,19 @@ public class SoundMeter {
             try {
                 mRecorder.prepare();
             } catch (IllegalStateException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
             mRecorder.start();
-            mEMA = 0.0;
+
         }
     }
 
+    /**
+     * Stot recording
+     */
     public void stop() {
         if (mRecorder != null) {
             mRecorder.stop();
@@ -43,6 +50,10 @@ public class SoundMeter {
         }
     }
 
+    /**
+     * Get amplitude from the sound input
+     * @return current amplitude or 0 if not recording
+     */
     public double getAmplitude() {
         if (mRecorder != null)
             return  (mRecorder.getMaxAmplitude()/2700.0);
@@ -51,9 +62,5 @@ public class SoundMeter {
 
     }
 
-    public double getAmplitudeEMA() {
-        double amp = getAmplitude();
-        mEMA = EMA_FILTER * amp + (1.0 - EMA_FILTER) * mEMA;
-        return mEMA;
-    }
+
 }
