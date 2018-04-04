@@ -1,12 +1,20 @@
 package com2027.cw.group7.resteasy;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class SleepReview extends AppBaseActivity {
 
@@ -19,11 +27,22 @@ public class SleepReview extends AppBaseActivity {
     private RatingBar ratingBar;
     private Button submit;
 
+    private String formattedDate;
+    //DB Variables
+    private Cursor sleep;
+    private DBManager sleepDatabase;
+    private SQLiteDatabase db;
+    private String[] columnNames;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_review);
         getIntentInformation();
+        createDB();
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        formattedDate = df.format(c);
 
         sleepRating = (TextView) findViewById(R.id.sleep_rating);
 
@@ -39,12 +58,26 @@ public class SleepReview extends AppBaseActivity {
         submit = (Button) findViewById(R.id.submit_sleep_review);
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                sleepDatabase.insertData(formattedDate, (int) Math.round(ratingBar.getRating()), sleepRating.getText().toString() , sleepTime, "none");
+
+
+
                 Intent myIntent = new Intent(SleepReview.this, SleepRecorder.class);
                 SleepReview.this.startActivity(myIntent);
             }
         });
     }
+    private void createDB() {
+        sleep = null;
+        SQLiteDatabase.CursorFactory factory = null;
+        sleepDatabase = new DBManager( this, "sleepDB", factory , 1);
 
+        db = sleepDatabase.getReadableDatabase();
+
+        sleepDatabase.clearData();
+        columnNames = new String[]{"Date", "UserRating", "SleepRating", "UserSleepTime", "Treatment", BaseColumns._ID};
+        sleep = db.query( "sleep", columnNames, null, null, null, null, null );
+    }
     /**
      * Method used to receive information from SleepRecorder Activity, so sleep quality can be quantified
      */
