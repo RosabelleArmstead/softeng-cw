@@ -3,6 +3,7 @@ package com2027.cw.group7.resteasy;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -26,7 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -148,9 +151,20 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
                 startSleep.setVisibility(View.VISIBLE);
                 stopSleep.setVisibility(View.GONE);
                 customHandler.removeCallbacks(updateTimerThread);
-                timer.getText().toString();
+                //timer.getText().toString();
                 stop();
                 stopSoundscape();
+
+                Intent myIntent = new Intent(SleepRecorder.this, SleepReview.class);
+
+                timeInMilliseconds = 18000000 ;//18000000 ms = 5 hours for testing
+                long sleepTime = (timeInMilliseconds / 1000)/3600 ; // Convert ms to hours
+                //TODO: FIX equation
+                String information = sleepTime + " " + exceedSoundThreshold + " "+exceedMovementThreshold;
+                Log.d("SleepRecorder",information);
+
+                myIntent.putExtra("information", information);
+                SleepRecorder.this.startActivity(myIntent);
             }
         });
     }
@@ -241,7 +255,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         mp.pause();
         mp.seekTo(0);
     }
-    
+
     /**
      * To stop sound from playing and monitoring when activity is no longer in the foreground,
      * as well as unregistering the Accelerometer listener

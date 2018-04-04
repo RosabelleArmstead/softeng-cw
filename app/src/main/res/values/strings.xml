@@ -21,4 +21,5 @@
     <string name="start_sleep">START</string>
     <string name="stop_sleep">STOP</string>
     <string name="cancel_sleep">CANCEL</string>
+    <string name="sleep_rating">Sleep Rating: - </string>
 </resources>
