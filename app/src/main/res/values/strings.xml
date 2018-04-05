@@ -24,4 +24,21 @@
     <string name="sleep_rating">Sleep Rating: - </string>
     <string name="info_title">Information: </string>
     <string name="choose_category">Please choose what you would like to know more about: </string>
+    <string name="selection_needed">Please select a category from the box above.</string>
+
+    <string-array name="information_categories">
+        <item>About Rest Easy</item>
+        <item>Insomnia Information</item>
+        <item>Causes of Insomnia</item>
+        <item>Potential Treatments</item>
+        <item>Symptoms</item>
+        <item>Legal Information</item>
+    </string-array>
+
+    <string name="about">Rest Easy has been designed and created to help you have a better night’s sleep. The team behind this application has therefore created an application with many features that could benefit you and your sleep to help you become more productive and have more energy! Some of the tools that we have provided you with are a sleep recorder so you can monitor the quality of your sleep, a sleep calendar so you can track if your sleep quality is changing and recommended treatments tailored to you. </string>
+    <string name="insomnia">Insomnia is a very broad term and so can cover a large amount of people who are struggling with sleep. It can vary from people who struggle to get to sleep and so feel tired during the day all the way to people who can’t sleep at all which is why Rest Easy aims to help as many people as possible. It has many different causes and so it hard to have just one treatment as this will differ from person to person.</string>
+    <string name="causes">Insomnia can have many different causes which will range from person to person. Some of these causes are mental issues. Examples of these are anxiety, depression, schizophrenia and stress which is becoming increasingly common within today’s society. Other causes are environmental. These can include sleeping in a noisy area, sleeping in an area which is either too hot or too cold, having an uncomfortable sleeping area or having an inconsistent sleeping pattern. There are additional causes which vary depending on the person and what effects one may have no effect on another.</string>
+    <string name="treatments">Similar to causes of insomnia, there are many different treatments which will vary in effectiveness depending on the person using the treatment. Some treatments are environmental like sleeping in a dark area, using ear plugs to block out noise, using soundscapes to create a relaxing environment and ensure that your sleeping environment is comfortable. Other important factors which have a large impact on your sleep can include maintaining a sleep schedule, avoid using any devices for a period before sleep as the blue light emitted will make it increasingly difficult to get to sleep and to increase the amount of exercise undertaken along with a whole bunch of other treatments which may help you as an individual. Rest Easy hopes to help you identify which treatments may help you.</string>
+    <string name="symptoms">Symptoms of insomnia come in many different forms differ depending on the severity of the insomnia and the individual. Some known symptoms are difficulty sleeping, waking up repeatedly during the night, generally feeling tired and having a lack of concentration or waking up early and not being able to go back to sleep. All of the symptoms mentioned above have to had occurred over a significant time period as if it juct happens for a couple of days it may be a result of jet lag or similar events. </string>
+    <string name="legal">Rest Easy ensures that it complies with all legal regulations. All data provided to us by any user will be held in line with the Data Protection Act 1998 so you know it will be held securely and will only be used for the purposes expected. All treatments suggested by Rest Easy will not be of a medical nature and so will not advise you to take any medication. If your condition becomes severe, please consult your GP.</string>
 </resources>
