@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,17 +8,13 @@
     android:id="@+id/activity_information"
     android:padding="24dp"
     android:layout_gravity="top"
-    android:gravity="top"
     >
 
     <TextView
         android:id="@+id/infoTitle"
-        android:layout_width="146dp"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="427dp"
-        android:layout_marginStart="0dp"
         android:text="@string/info_title"
         android:textColor="@android:color/black"
         android:textSize="24dp"
@@ -28,9 +24,7 @@
         android:id="@+id/info_explanation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/infoTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-427dp"
+        android:gravity="center_horizontal"
         android:textSize="18dp"
         android:text="@string/choose_category"
         android:textColor="@android:color/black" />
@@ -38,19 +32,18 @@
     <Spinner
         android:id="@+id/info_spinner"
         android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:layout_below="@+id/info_explanation"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="48dp"
+        android:gravity="center_horizontal"
+        android:paddingTop="16dp" />
 
     <TextView
         android:id="@+id/info_show"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:textSize="18dp"
-        android:layout_alignStart="@+id/infoTitle"
-        android:layout_below="@+id/info_spinner"
+        android:gravity="fill_horizontal"
         android:textColor="@android:color/black"
         android:paddingTop="32dp"/>
 
 
-</RelativeLayout>
+</LinearLayout>

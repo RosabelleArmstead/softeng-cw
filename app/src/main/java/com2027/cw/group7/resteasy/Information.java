@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 public class Information extends AppBaseActivity {
 
+    //Setting up variables for the spinner and textview
     private Spinner info_spinner;
     private TextView info_show;
 
@@ -17,15 +18,19 @@ public class Information extends AppBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
 
+        // Initialising the text view
         info_show = (TextView) findViewById(R.id.info_show);
 
+        // Calls methods to add the options to the spinner and to monitor what is selected
         addTextToInfoSpinner();
         addListenerToSpinner();
 
     }
 
+    // Adds the options to the spinner on the information page
     private void addTextToInfoSpinner(){
 
+        // Initialising spinner
         info_spinner = (Spinner) findViewById(R.id.info_spinner);
 
         ArrayAdapter<CharSequence> infoSpinnerAdapter = ArrayAdapter.createFromResource(this,
@@ -34,6 +39,7 @@ public class Information extends AppBaseActivity {
         info_spinner.setAdapter(infoSpinnerAdapter);
     }
 
+    // Listener to monitor what is selected by the user
     private void addListenerToSpinner(){
         info_spinner = (Spinner) findViewById(R.id.info_spinner);
 
