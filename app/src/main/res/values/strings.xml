@@ -22,4 +22,6 @@
     <string name="stop_sleep">STOP</string>
     <string name="cancel_sleep">CANCEL</string>
     <string name="sleep_rating">Sleep Rating: - </string>
+    <string name="info_title">Information: </string>
+    <string name="choose_category">Please choose what you would like to know more about: </string>
 </resources>
