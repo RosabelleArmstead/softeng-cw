@@ -71,12 +71,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     private float mAccelLast;
     private int exceedMovementThreshold;
 
-    //DB Variables
-    private Cursor sleep;
-    private DBManager sleepDatabase;
-    private CursorAdapter adapter;
-    private SQLiteDatabase db;
-    private String[] columnNames;
+
     @Override
     /**
      * Executed when the Activity is first run. Used to initialise variables and call methods.
