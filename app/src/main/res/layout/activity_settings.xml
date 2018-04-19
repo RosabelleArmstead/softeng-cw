@@ -26,16 +26,31 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:labelFor="@id/edit_phone_number"
+        android:labelFor="@id/edit_email"
+        android:text="@string/change_name"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/edit_email"
         android:text="@string/change_email"
         android:textSize="25sp" />
 
     <EditText
-        android:id="@+id/edit_phone_number"
+        android:id="@+id/edit_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="phone" />
+        android:inputType="textEmailAddress" />
 
     <TextView
         android:layout_width="match_parent"
@@ -64,4 +79,13 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/saveSettings"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="saveSettings"
+        android:text="@string/save"
+        android:textSize="30sp" />
 </LinearLayout>
