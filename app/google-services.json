@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "523230093179",
+    "firebase_url": "https://rest-easy-70269.firebaseio.com",
+    "project_id": "rest-easy-70269",
+    "storage_bucket": "rest-easy-70269.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523230093179:android:cf604b4d072a45f2",
+        "android_client_info": {
+          "package_name": "com2027.cw.group7.resteasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523230093179-7vi6s664uk72v2509mb7oqem4e2l8j6f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzB5jIuHGvw2ffTiUGaTsJCL_pF0nWqq0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
