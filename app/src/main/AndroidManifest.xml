@@ -18,7 +18,9 @@
         <activity android:name=".SleepCalendar" />
         <activity android:name=".Settings" />
         <activity android:name=".Information" />
-        <activity android:name=".SleepReview"></activity>
+        <activity android:name=".SleepReview">
+
+        </activity>
     </application>
 
 </manifest>
