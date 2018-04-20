@@ -1,15 +1,14 @@
 <resources>
     <string name="app_name">Rest Easy</string>
     <string name="change_soundscape">Change preferred soundscape</string>
-    <string name="change_phone_number">Change your phone number</string>
+    <string name="change_email">Change your email</string>
     <string name="change_password">Change your password</string>
-    <string name="confirm_password">Confirm Password</string>
+    <string name="confirm_password">Confirm current password</string>
     <string name="settings">Settings</string>
     <string name="sleep_calendar">Sleep Calendar</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="how_was_your_sleep">How was your sleep?</string>
-    <string name="how_long_do_you_think_you_slept">How long do you think you slept?</string>
     <string name="did_you_use_any_treatments">Did you use any treatments?</string>
     <string name="submit_button">Submit</string>
     <string name="home_menu">Home</string>
@@ -17,4 +16,35 @@
     <string name="sleep_calendar_menu">Sleep Calendar</string>
     <string name="information_menu">Information</string>
     <string name="sleep_menu">Sleep Review (for testing)</string>
+    <string name="sleep_recorder">Sleep Recorder</string>
+    <string name="start_sleep">START</string>
+    <string name="stop_sleep">STOP</string>
+    <string name="cancel_sleep">CANCEL</string>
+    <string name="sleep_rating">Sleep Rating: - </string>
+    <string name="info_title">Information: </string>
+    <string name="choose_category">Please choose what you would like to know more about: </string>
+    <string name="selection_needed">Please select a category from the box above.</string>
+
+    <string-array name="information_categories">
+        <item>About Rest Easy</item>
+        <item>Insomnia Information</item>
+        <item>Causes of Insomnia</item>
+        <item>Potential Treatments</item>
+        <item>Symptoms</item>
+        <item>Legal Information</item>
+    </string-array>
+
+    <string name="about">Rest Easy has been designed and created to help you have a better night’s sleep. The team behind this application has therefore created an application with many features that could benefit you and your sleep to help you become more productive and have more energy! Some of the tools that we have provided you with are a sleep recorder so you can monitor the quality of your sleep, a sleep calendar so you can track if your sleep quality is changing and recommended treatments tailored to you. </string>
+    <string name="insomnia">Insomnia is a very broad term and so can cover a large amount of people who are struggling with sleep. It can vary from people who struggle to get to sleep and so feel tired during the day all the way to people who can’t sleep at all which is why Rest Easy aims to help as many people as possible. It has many different causes and so it is hard to have just one treatment as this will differ from person to person.</string>
+    <string name="causes">Insomnia can have many different causes which will range from person to person. Some of these causes are mental issues. Examples of these are anxiety, depression, schizophrenia and stress which is becoming increasingly common within today’s society. Other causes are environmental. These can include sleeping in a noisy area, sleeping in an area which is either too hot or too cold, having an uncomfortable sleeping area or having an inconsistent sleeping pattern. There are additional causes which vary depending on the person and what effects one may have no effect on another.</string>
+    <string name="treatments">Similar to causes of insomnia, there are many different treatments which will vary in effectiveness depending on the person using the treatment. Some treatments are environmental like sleeping in a dark area, using ear plugs to block out noise, using soundscapes to create a relaxing environment and ensure that your sleeping environment is comfortable. Other important factors which have a large impact on your sleep can include maintaining a sleep schedule, avoid using any devices for a period before sleep as the blue light emitted will make it increasingly difficult to get to sleep and to increase the amount of exercise undertaken along with a whole bunch of other treatments which may help you as an individual. Rest Easy hopes to help you identify which treatments may help you.</string>
+    <string name="symptoms" translatable="false">Symptoms of insomnia come in many different forms differ depending on the severity of the insomnia and the individual. Some known symptoms are difficulty sleeping, waking up repeatedly during the night, generally feeling tired and having a lack of concentration or waking up early and not being able to go back to sleep. All of the symptoms mentioned above have to had occurred over a significant time period as if it juct happens for a couple of days it may be a result of jet lag or similar events. </string>
+    <string name="legal">Rest Easy ensures that it complies with all legal regulations. All data provided to us by any user will be held in line with the Data Protection Act 1998 so you know it will be held securely and will only be used for the purposes expected. All treatments suggested by Rest Easy will not be of a medical nature and so will not advise you to take any medication. If your condition becomes severe, please consult your GP.</string>
+    <string name="comment">Add a Comment</string>
+    <string name="login_menu">Login</string>
+    <string name="logged_in_text">you are logged in as</string>
+    <string name="logged_out_text">you are logged out</string>
+    <string name="logout_menu">Logout</string>
+    <string name="save">Save</string>
+    <string name="change_name">Change your name</string>
 </resources>

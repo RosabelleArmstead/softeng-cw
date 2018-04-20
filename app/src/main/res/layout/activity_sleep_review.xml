@@ -26,21 +26,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:paddingBottom="25dp"
-        android:text="@string/how_long_do_you_think_you_slept"
+        android:paddingBottom="10dp"
+        android:text="@string/comment"
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/add_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:paddingBottom="25dp" />
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:paddingTop="25dp"
         android:paddingBottom="25dp"
         android:text="@string/did_you_use_any_treatments"
         android:textSize="20sp" />
@@ -50,6 +50,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="25dp" />
+
+    <TextView
+        android:id="@+id/sleep_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sleep_rating"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:padding="20dp"/>
+
     <Button
         android:id="@+id/submit_sleep_review"
         android:layout_width="wrap_content"
