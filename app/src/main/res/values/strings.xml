@@ -35,6 +35,13 @@
         <item>Credits</item>
     </string-array>
 
+    <string-array name="soundscapes">
+        <item>Concentration</item>
+        <item>Fresh Air</item>
+        <item>Soaring</item>
+        <item>Sound</item>
+    </string-array>
+
     <string name="about">Rest Easy has been designed and created to help you have a better night’s sleep. The team behind this application has therefore created an application with many features that could benefit you and your sleep to help you become more productive and have more energy! Some of the tools that we have provided you with are a sleep recorder so you can monitor the quality of your sleep, a sleep calendar so you can track if your sleep quality is changing and recommended treatments tailored to you. </string>
     <string name="insomnia">Insomnia is a very broad term and so can cover a large amount of people who are struggling with sleep. It can vary from people who struggle to get to sleep and so feel tired during the day all the way to people who can’t sleep at all which is why Rest Easy aims to help as many people as possible. It has many different causes and so it is hard to have just one treatment as this will differ from person to person.</string>
     <string name="causes">Insomnia can have many different causes which will range from person to person. Some of these causes are mental issues. Examples of these are anxiety, depression, schizophrenia and stress which is becoming increasingly common within today’s society. Other causes are environmental. These can include sleeping in a noisy area, sleeping in an area which is either too hot or too cold, having an uncomfortable sleeping area or having an inconsistent sleeping pattern. There are additional causes which vary depending on the person and what effects one may have no effect on another.</string>
