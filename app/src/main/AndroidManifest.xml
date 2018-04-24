@@ -22,9 +22,11 @@
         <activity android:name=".Settings" />
         <activity android:name=".Information" />
         <activity android:name=".SleepReview" />
-        <activity android:name=".SleepRecorder">
-
-        </activity>
+        <activity android:name=".SleepRecorder" />
+        <activity
+            android:name=".Treatments"
+            android:label="@string/title_activity_treatments" />
+        <activity android:name=".TreatmentSuggestion"></activity>
     </application>
 
 </manifest>

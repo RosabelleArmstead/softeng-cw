@@ -36,4 +36,9 @@
         android:title="@string/sleep_recorder">
 
     </item>
+
+    <item android:id="@+id/treatments_menu"
+        android:title="@string/treatments_menu">
+
+    </item>
 </menu>

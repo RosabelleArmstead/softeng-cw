@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TreatmentSuggestion"
+    android:gravity="center_horizontal"
+    android:padding="24dp"
+    >
+
+    <TextView
+        android:paddingTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/suggestion_title"
+        android:text="@string/suggestion_title"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_suggestion_title"
+        android:hint="@string/user_suggestion_title_hint"
+        android:inputType="text"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_suggestion_description"
+        android:hint="@string/user_suggestion_description_hint"
+        android:inputType="text"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/submit_suggestion"
+        android:text="@string/submit_suggestion"
+        android:enabled="false"
+        />
+
+</LinearLayout>
