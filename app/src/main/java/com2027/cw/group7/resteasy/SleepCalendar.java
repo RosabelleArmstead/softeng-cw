@@ -8,10 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.awt.Cursor;
+//import java.awt.Cursor;
 import java.util.ArrayList;
 
-import javax.xml.crypto.Data;
+//import javax.xml.crypto.Data;
 
 /**
  * https://androidexample.com/Create_A_Simple_Listview_-_Android_Example/index.php?view=article_discription&aid=65
