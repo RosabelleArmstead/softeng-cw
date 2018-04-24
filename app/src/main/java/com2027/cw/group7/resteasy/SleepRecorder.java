@@ -58,7 +58,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
 
     private int exceedSoundThreshold; //Used to count the amount of times that the sound amplitude exceeded the threshold set
 
-    private MediaPlayer mp; //Used for playing the soundscape
+    private static MediaPlayer mp; //Used for playing the soundscape
 
     private long soundscapeStartTime, soundscapeTargetTime; //The start time of the soundscape and the end time, used to stop the soundscape after a certain amount of time
 
@@ -83,7 +83,6 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         setupButtons(); //Initialise all the buttons
         timer = (TextView) findViewById(R.id.timer); //Initialise the textView that counts the time
 
-        mp = MediaPlayer.create(getApplicationContext(), R.raw.sound); //Initialise the mediaplayer with the specified audio file
         mp.setLooping(true); //Allow the audio clip to loop after it has finished
 
 
@@ -103,6 +102,23 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         mAccelLast = SensorManager.GRAVITY_EARTH;
         exceedMovementThreshold = 0;
 
+    }
+
+    public static void setMp(Context context, String soundscape) {
+        if(soundscape.equals("Concentration")) {
+            //set soundscape
+            mp = MediaPlayer.create(context, R.raw.concentration);
+        }
+        else if(soundscape.equals("Fresh Air")){
+            //set soundscape
+            mp = MediaPlayer.create(context, R.raw.freshair);
+        }
+        else if(soundscape.equals("Soaring")){
+            mp = MediaPlayer.create(context, R.raw.soaring);
+        }
+        else if(soundscape.equals("Sound")){
+            mp = MediaPlayer.create(context, R.raw.sound);
+        }
     }
 
 

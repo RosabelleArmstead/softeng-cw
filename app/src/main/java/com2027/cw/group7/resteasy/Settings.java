@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +28,7 @@ public class Settings extends AppBaseActivity {
     private TextView editPassword;
     private TextView editEMail;
     private TextView editName;
+    private Spinner soundscapeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,35 @@ public class Settings extends AppBaseActivity {
         editPassword = findViewById(R.id.edit_password);
         editEMail = findViewById(R.id.edit_email);
         editName = findViewById(R.id.edit_name);
+
+        addSoundscapeToSpinner();
+        addListenerToSpinner();
+    }
+
+    private void addSoundscapeToSpinner() {
+        soundscapeSpinner = findViewById(R.id.soundscape_spinner);
+
+        ArrayAdapter<CharSequence> infoSpinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.soundscapes, android.R.layout.simple_spinner_item);
+        infoSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        soundscapeSpinner.setAdapter(infoSpinnerAdapter);
+    }
+
+    private void  addListenerToSpinner() {
+        soundscapeSpinner = findViewById(R.id.soundscape_spinner);
+
+        soundscapeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem = adapterView.getItemAtPosition(i).toString();
+                    SleepRecorder.setMp(getApplicationContext(), selectedItem);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //notify user to select soundscape
+            }
+        });
     }
 
     @Override
@@ -170,4 +204,7 @@ public class Settings extends AppBaseActivity {
 
         reevaluateAuthStatus();
     }
+
+
+
 }
