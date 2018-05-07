@@ -57,7 +57,7 @@
     <string name="logged_out_text">you are logged out</string>
     <string name="logout_menu">Logout</string>
     <string name="save">Save</string>
-    <string name="change_name">Change your name</string>
+    <string name="change_name">Change your username</string>
     <string name="title_activity_treatments">Treatments</string>
     <string name="title_activity_treatment_suggestion">TreatmentSuggestion</string>
     <string name="suggestion_title">Make Your Treatment Suggestion!</string>

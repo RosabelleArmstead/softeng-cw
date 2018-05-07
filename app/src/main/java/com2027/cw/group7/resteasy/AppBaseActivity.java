@@ -43,6 +43,10 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     private MenuItem loginMenu;
     private MenuItem logoutMenu;
     private MenuItem settingsMenu;
+    private MenuItem sleepCalendar;
+    private MenuItem sleepRecorder;
+    private MenuItem sleepReview;
+    private MenuItem treatments;
 
     protected void alertDialog(String title, String message) {
         AlertDialog alertDialog = new AlertDialog.Builder(AppBaseActivity.this).create();
@@ -64,6 +68,7 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
 
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder()
+                        .setTosUrl("https://rest-easy-70269.firebaseapp.com/tos.html")
                         .setAvailableProviders(providers)
                         .build(), RC_SIGN_IN);
     }
@@ -85,10 +90,18 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     private void reevaluateBaseAuthStatus() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            sleepCalendar.setVisible(true);
+            sleepRecorder.setVisible(true);
+            sleepReview.setVisible(true);
+            treatments.setVisible(true);
             logoutMenu.setVisible(true);
             loginMenu.setVisible(false);
             settingsMenu.setVisible(true);
         } else {
+            sleepCalendar.setVisible(false);
+            sleepRecorder.setVisible(false);
+            sleepReview.setVisible(false);
+            treatments.setVisible(false);
             logoutMenu.setVisible(false);
             loginMenu.setVisible(true);
             settingsMenu.setVisible(false);
@@ -114,6 +127,10 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         loginMenu = drawerMenu.findItem(R.id.login_menu);
         logoutMenu = drawerMenu.findItem(R.id.logout_menu);
         settingsMenu = drawerMenu.findItem(R.id.settings_menu);
+        sleepCalendar = drawerMenu.findItem(R.id.sleep_calendar_menu);
+        sleepRecorder = drawerMenu.findItem(R.id.sleep_recorder);
+        treatments = drawerMenu.findItem(R.id.treatments_menu);
+        sleepReview = drawerMenu.findItem(R.id.test_sleep_review);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override

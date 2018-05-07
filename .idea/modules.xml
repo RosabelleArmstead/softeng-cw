@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/softeng-cw.iml" filepath="$PROJECT_DIR$/softeng-cw.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/softenginsom.iml" filepath="$PROJECT_DIR$/.idea/softenginsom.iml" />
     </modules>
   </component>
 </project>

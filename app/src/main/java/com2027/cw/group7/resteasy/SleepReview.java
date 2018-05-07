@@ -2,6 +2,7 @@ package com2027.cw.group7.resteasy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +11,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class SleepReview extends AppBaseActivity {
 
@@ -25,7 +32,7 @@ public class SleepReview extends AppBaseActivity {
     private EditText comment;
     private RatingBar ratingBar;
     private Button submit;
-    private DatabaseHelper myDb;
+    //private DatabaseHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +40,7 @@ public class SleepReview extends AppBaseActivity {
         setContentView(R.layout.activity_sleep_review);
         getIntentInformation();
 
-        myDb = new DatabaseHelper(this);
+        //myDb = new DatabaseHelper(this);
 
         sleepRating = (TextView) findViewById(R.id.sleep_rating);
         comment = (EditText) findViewById(R.id.add_comment);
@@ -50,22 +57,40 @@ public class SleepReview extends AppBaseActivity {
         submit = (Button) findViewById(R.id.submit_sleep_review);
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 Date d = Calendar.getInstance().getTime(); //Get current date
+                /*
                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //Set date format
                 String date = df.format(d);
+                */
                 String treatment = "test-none";
                 int sleepScore = 0;
                 try {
-                     sleepScore = Integer.parseInt(sleepRating.getText().toString().substring(sleepRating.getText().toString().lastIndexOf(" ") + 1));
+                    sleepScore = Integer.parseInt(sleepRating.getText().toString().substring(sleepRating.getText().toString().lastIndexOf(" ") + 1));
                 } catch (Exception e) {
-
                 }
-                boolean isInserted = myDb.insertData(date, Math.round(ratingBar.getRating()), sleepScore, sleepTime, treatment, comment.getText().toString());
-                if(isInserted) Toast.makeText(SleepReview.this,"Data Inserted", Toast.LENGTH_SHORT).show();
-                else Toast.makeText(SleepReview.this,"Data Insertion Failed", Toast.LENGTH_SHORT).show();
+                //boolean isInserted = myDb.insertData(date, Math.round(ratingBar.getRating()), sleepScore, sleepTime, treatment, comment.getText().toString());
 
-                Intent myIntent = new Intent(SleepReview.this, SleepRecorder.class);
-                SleepReview.this.startActivity(myIntent);
+                SleepData sd = new SleepData(Math.round(ratingBar.getRating()), sleepScore, sleepTime, treatment, comment.getText().toString());
+                sd.save(user.getUid(), d).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> t) {
+                        if (t.isSuccessful()) {
+                            Toast.makeText(SleepReview.this, "Data Inserted", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SleepReview.this, "Data Insertion Failed", Toast.LENGTH_SHORT).show();
+                        }
+
+                        Intent myIntent = new Intent(SleepReview.this, SleepRecorder.class);
+                        SleepReview.this.startActivity(myIntent);
+                    }
+                });
+
+                //if (isInserted) Toast.makeText(SleepReview.this,"Data Inserted", Toast.LENGTH_SHORT).show();
+                //else Toast.makeText(SleepReview.this,"Data Insertion Failed", Toast.LENGTH_SHORT).show();
+
+                //Intent myIntent = new Intent(SleepReview.this, SleepRecorder.class);
+                //SleepReview.this.startActivity(myIntent);
             }
         });
     }
@@ -109,4 +134,21 @@ public class SleepReview extends AppBaseActivity {
         return Integer.toString(intSleepTime);
     }
 
+    @Override
+    protected void reevaluateAuthStatus() {
+        super.reevaluateAuthStatus();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            // The user logged out, so send him back to the Home screen
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        reevaluateAuthStatus();
+    }
 }

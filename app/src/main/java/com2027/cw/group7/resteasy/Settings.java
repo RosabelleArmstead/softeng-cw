@@ -29,25 +29,47 @@ public class Settings extends AppBaseActivity {
     private TextView editEMail;
     private TextView editName;
     private Spinner soundscapeSpinner;
+    private ArrayAdapter<CharSequence> infoSpinnerAdapter;
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        userData = new UserData();
 
         confirmPassword = findViewById(R.id.confirm_password);
         editPassword = findViewById(R.id.edit_password);
         editEMail = findViewById(R.id.edit_email);
         editName = findViewById(R.id.edit_name);
 
-        addSoundscapeToSpinner();
-        addListenerToSpinner();
+        // Load default value
+        if (user != null) {
+            editEMail.setText(user.getEmail());
+            editName.setText(user.getDisplayName());
+
+            UserData.load(user.getUid()).addOnCompleteListener(new OnCompleteListener<UserData>() {
+                @Override
+                public void onComplete(@NonNull Task<UserData> t) {
+                    userData = t.getResult();
+                    addSoundscapeToSpinner();
+                    addListenerToSpinner();
+                    if (userData.defaultSoundscape != null) {
+                        Log.d("RESTEASY_UserData", "Default Soundscape: " + userData.defaultSoundscape);
+                        int spinnerPosition = infoSpinnerAdapter.getPosition(userData.defaultSoundscape);
+                        soundscapeSpinner.setSelection(spinnerPosition);
+                    }
+                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
     private void addSoundscapeToSpinner() {
         soundscapeSpinner = findViewById(R.id.soundscape_spinner);
 
-        ArrayAdapter<CharSequence> infoSpinnerAdapter = ArrayAdapter.createFromResource(this,
+        infoSpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.soundscapes, android.R.layout.simple_spinner_item);
         infoSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         soundscapeSpinner.setAdapter(infoSpinnerAdapter);
@@ -60,7 +82,7 @@ public class Settings extends AppBaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = adapterView.getItemAtPosition(i).toString();
-                    SleepRecorder.setMp(getApplicationContext(), selectedItem);
+                SleepRecorder.setMp(getApplicationContext(), selectedItem);
             }
 
             @Override
@@ -70,15 +92,12 @@ public class Settings extends AppBaseActivity {
         });
     }
 
-    @Override
-    protected void reevaluateAuthStatus() {
-        super.reevaluateAuthStatus();
+    private Task<Void> updateUserData(String soundscape) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            // The user logged out, so send him back to the Home screen
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
+        if (user == null || soundscape.isEmpty() ||
+                soundscape.equals(userData.defaultSoundscape)) return null;
+        userData.defaultSoundscape = soundscape;
+        return userData.save(user.getUid());
     }
 
     private Task<Void> updatePassword(String newPass) {
@@ -101,7 +120,7 @@ public class Settings extends AppBaseActivity {
 
     private Task<Void> updateEMail(String newEMail) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null || newEMail.isEmpty()) return null;
+        if (user == null || newEMail.isEmpty() || newEMail.equals(user.getEmail())) return null;
 
         return user.updateEmail(newEMail).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -119,7 +138,7 @@ public class Settings extends AppBaseActivity {
 
     private Task<Void> updateProfile(String newName) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null || newName.isEmpty()) return null;
+        if (user == null || newName.isEmpty() || newName.equals(user.getDisplayName())) return null;
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(newName)
@@ -170,7 +189,14 @@ public class Settings extends AppBaseActivity {
                             Task<Void> profileTask = updateProfile(editName.getText().toString());
                             if (profileTask != null) taskList.add(profileTask);
 
-                            if (taskList.isEmpty()) { return; }
+                            Task<Void> updateUserData = updateUserData(soundscapeSpinner.getSelectedItem().toString());
+                            if (updateUserData != null) taskList.add(updateUserData);
+
+                            if (taskList.isEmpty()) {
+                                alertDialog("Warning", "No settings were changed");
+                                confirmPassword.setText("");
+                                return;
+                            }
 
                             Tasks.whenAllComplete(taskList).
                                 addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
@@ -196,6 +222,17 @@ public class Settings extends AppBaseActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void reevaluateAuthStatus() {
+        super.reevaluateAuthStatus();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            // The user logged out, so send him back to the Home screen
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
     }
 
     @Override

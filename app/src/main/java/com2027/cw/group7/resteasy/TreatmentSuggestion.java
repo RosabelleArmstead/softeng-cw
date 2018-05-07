@@ -1,6 +1,7 @@
 package com2027.cw.group7.resteasy;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class TreatmentSuggestion extends AppBaseActivity {
 
@@ -31,10 +37,15 @@ public class TreatmentSuggestion extends AppBaseActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(TreatmentSuggestion.this, "Suggestion Submitted!", Toast.LENGTH_LONG).show();
-                backToTreatments();
-
+                TreatmentData td = new TreatmentData(editTextTitle.getText().toString(),
+                        editTextDescription.getText().toString());
+                td.save().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> t) {
+                        Toast.makeText(TreatmentSuggestion.this, "Suggestion Submitted!", Toast.LENGTH_LONG).show();
+                        backToTreatments();
+                    }
+                });
             }
         });
     }
@@ -66,5 +77,23 @@ public class TreatmentSuggestion extends AppBaseActivity {
 
         Intent myIntent = new Intent(this, Treatments.class);
         startActivity(myIntent);
+    }
+
+    @Override
+    protected void reevaluateAuthStatus() {
+        super.reevaluateAuthStatus();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            // The user logged out, so send him back to the Home screen
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        reevaluateAuthStatus();
     }
 }
