@@ -3,6 +3,7 @@ package com2027.cw.group7.resteasy;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppBaseActivity {
+
     private Button logoutButton;
     private Button loginButton;
     private TextView loggedInText;
@@ -58,6 +60,7 @@ public class MainActivity extends AppBaseActivity {
         loggedInText = findViewById(R.id.loggedInText);
         loggedName = findViewById(R.id.loggedName);
         loggedOutText = findViewById(R.id.loggedOutText);
+        SleepRecorder.setMp(getApplicationContext(), "Sound"); //set default soundscape
     }
 
     @Override

@@ -66,6 +66,9 @@ public class Information extends AppBaseActivity {
                 else if(selectedItem.equals("Legal Information")){
                     info_show.setText(R.string.legal);
                 }
+                else if(selectedItem.equals("Credits")){
+                    info_show.setText(R.string.credits);
+                }
             }
 
             @Override

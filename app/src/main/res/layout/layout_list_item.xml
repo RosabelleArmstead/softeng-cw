@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_layout"
+    >
+    
+    <TextView
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        android:id="@+id/list_suggestion_title"
+        android:text="Room temperature"
+        android:gravity="center"
+        android:textColor="#000"
+        android:textSize="17sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_suggestion_description"
+        android:layout_toRightOf="@+id/list_suggestion_title"
+        android:text="Keep your room temperature as close to 18.5 degrees celsuis as possible.  "
+        android:layout_centerVertical="true"
+        android:textColor="#000"
+        android:layout_marginLeft="10dp"
+        />
+
+</RelativeLayout>
