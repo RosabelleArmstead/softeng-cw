@@ -11,6 +11,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -33,22 +34,18 @@ import java.util.TimeZone;
  */
 public class SleepRecorder extends AppBaseActivity implements SensorEventListener {
 
+    private static final int POLL_INTERVAL = 300; //Runnable will execute after this much time
+    private static MediaPlayer mp; //Used for playing the soundscape
     private Button startSleep, stopSleep; //Buttons for starting and stoping the sleep recording
     private TextView timer; //Displays time elapsed after recording was started
     private long startTime, timeInMilliseconds = 0; //Used for calculating elapsed time
     private Handler customHandler = new Handler(); //For counting time on a different thread
-
-    private static final int POLL_INTERVAL = 300; //Runnable will execute after this much time
     private boolean mRunning = false; //Flag that shows if the recorder is running
     private int mThreshold = 4; //Threshold for noise detection
     private PowerManager.WakeLock mWakeLock; //For keeping the device on while recording
     private Handler mHandler = new Handler(); //Handler for the runnable
     private SoundMeter mSensor; //Data source
-
     private int exceedSoundThreshold; //Used to count the amount of times that the sound amplitude exceeded the threshold set
-
-    private static MediaPlayer mp; //Used for playing the soundscape
-
     private long soundscapeStartTime, soundscapeTargetTime; //The start time of the soundscape and the end time, used to stop the soundscape after a certain amount of time
 
     //Used for motion detection
@@ -59,7 +56,89 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     private float mAccelCurrent;
     private float mAccelLast;
     private int exceedMovementThreshold;
+    private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context ctxt, Intent intent) {
+            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+            if (level < 20 && stopSleep.getVisibility() == View.GONE) {
+                Toast.makeText(getApplicationContext(), "Battery level is low please charge your device before recording.", Toast.LENGTH_SHORT).show();
+                startSleep.setEnabled(false);
+            } else {
+                startSleep.setEnabled(true);
+            }
+        }
+    };
+    /**
+     * Executed when battery is low, to notify the user and stop recording
+     * (note: if battery is allready low when the recording starts it will not trigger)
+     */
+    private BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
+            if (stopSleep.getVisibility() == View.VISIBLE) {
+                Toast.makeText(getApplicationContext(), "Battery level is low monitoring has stopped",
+                        Toast.LENGTH_SHORT).show();
+                stopSleep.performClick();
+            }
+        }
+    };
+    /**
+     * Count time on a different thread
+     */
+    private Runnable updateTimerThread = new Runnable() {
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            timer.setText(getDateFromMillis(timeInMilliseconds));
+            if (soundscapeTargetTime <= timeInMilliseconds) {
+                stopSoundscape();
+            }
+
+            customHandler.postDelayed(this, 1000);
+        }
+    };
+    // Create runnable thread to monitor sound
+    private Runnable mPollTask = new Runnable() {
+        public void run() {
+
+            double amp = mSensor.getAmplitude(); //Get sound amplitude from the microphone
+
+            //If the amplitude recorded is higher than the threshold, call method that handles this event
+            if ((amp > mThreshold)) {
+                handleSound();
+            }
+
+            // Runnable(mPollTask) will again execute after POLL_INTERVAL
+            mHandler.postDelayed(mPollTask, POLL_INTERVAL);
+
+        }
+    };
+
+    public static void setMp(Context context, String soundscape) {
+        if (soundscape.equals("Concentration")) {
+            //set soundscape
+            mp = MediaPlayer.create(context, R.raw.concentration);
+        } else if (soundscape.equals("Fresh Air")) {
+            //set soundscape
+            mp = MediaPlayer.create(context, R.raw.freshair);
+        } else if (soundscape.equals("Soaring")) {
+            mp = MediaPlayer.create(context, R.raw.soaring);
+        } else if (soundscape.equals("Sound")) {
+            mp = MediaPlayer.create(context, R.raw.sound);
+        }
+    }
+
+    /**
+     * Converts miliseconds to Hours::Minutes::Seconds
+     *
+     * @param d input time in miliseconds
+     * @return formated time
+     */
+    public static String getDateFromMillis(long d) {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return df.format(d);
+    }
 
     @Override
     /**
@@ -84,78 +163,17 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         exceedSoundThreshold = 0; // Number of times the sound threshold has been exceeded
 
         //Used for motion detection
-        sensorMan = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensorMan = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mAccel = 0.00f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
         exceedMovementThreshold = 0;
 
+        this.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         this.registerReceiver(this.batteryLevelReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
 
     }
-
-    /**
-     * Executed when battery is low, to notify the user and stop recording
-     * (note: if battery is allready low when the recording starts it will not trigger)
-     */
-    private BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Toast.makeText(getApplicationContext(), "Battery level is low monitoring has stopped",
-                    Toast.LENGTH_SHORT).show();
-            stopSleep.performClick();
-
-        }
-    };
-
-
-    public static void setMp(Context context, String soundscape) {
-        if(soundscape.equals("Concentration")) {
-            //set soundscape
-            mp = MediaPlayer.create(context, R.raw.concentration);
-        }
-        else if(soundscape.equals("Fresh Air")){
-            //set soundscape
-            mp = MediaPlayer.create(context, R.raw.freshair);
-        }
-        else if(soundscape.equals("Soaring")){
-            mp = MediaPlayer.create(context, R.raw.soaring);
-        }
-        else if(soundscape.equals("Sound")){
-            mp = MediaPlayer.create(context, R.raw.sound);
-        }
-    }
-
-
-
-    /**
-     * Converts miliseconds to Hours::Minutes::Seconds
-     *
-     * @param d input time in miliseconds
-     * @return formated time
-     */
-    public static String getDateFromMillis(long d) {
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return df.format(d);
-    }
-
-    /**
-     * Count time on a different thread
-     */
-    private Runnable updateTimerThread = new Runnable() {
-        public void run() {
-            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-            timer.setText(getDateFromMillis(timeInMilliseconds));
-            if (soundscapeTargetTime <= timeInMilliseconds) {
-                stopSoundscape();
-            }
-
-            customHandler.postDelayed(this, 1000);
-        }
-    };
 
     /**
      * Create all the buttons for the activity with their listeners
@@ -188,10 +206,10 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
 
                 Intent myIntent = new Intent(SleepRecorder.this, SleepReview.class);
 
-                timeInMilliseconds = 18000000 ;//18000000 ms = 5 hours for testing
-                long sleepTime = (timeInMilliseconds / 1000)/3600 ; // Convert ms to hours
-                String information = sleepTime + " " + exceedSoundThreshold + " "+exceedMovementThreshold;
-                Log.d("SleepRecorder",information);
+                timeInMilliseconds = 18000000;//18000000 ms = 5 hours for testing
+                long sleepTime = (timeInMilliseconds / 1000) / 3600; // Convert ms to hours
+                String information = sleepTime + " " + exceedSoundThreshold + " " + exceedMovementThreshold;
+                Log.d("SleepRecorder", information);
 
                 myIntent.putExtra("information", information);
                 SleepRecorder.this.startActivity(myIntent);
@@ -240,23 +258,6 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         sensorMan.unregisterListener(this);
     }
 
-    // Create runnable thread to monitor sound
-    private Runnable mPollTask = new Runnable() {
-        public void run() {
-
-            double amp = mSensor.getAmplitude(); //Get sound amplitude from the microphone
-
-            //If the amplitude recorded is higher than the threshold, call method that handles this event
-            if ((amp > mThreshold)) {
-                handleSound();
-            }
-
-            // Runnable(mPollTask) will again execute after POLL_INTERVAL
-            mHandler.postDelayed(mPollTask, POLL_INTERVAL);
-
-        }
-    };
-
     /**
      * It is executed when the sound threshold is exceeded, to increase the counter and start the soundscape
      */
@@ -264,7 +265,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         exceedSoundThreshold++;
         startSoundscape();
         // Show alert when noise thersold crossed
-        Toast.makeText(getApplicationContext(), "Sound Thersold Crossed "+ exceedSoundThreshold,
+        Toast.makeText(getApplicationContext(), "Sound Thersold Crossed " + exceedSoundThreshold,
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -294,29 +295,37 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         super.onPause();
         stopSoundscape();
         stop();
+        unregisterReceiver(batteryLevelReceiver);
+        unregisterReceiver(mBatInfoReceiver);
         sensorMan.unregisterListener(this);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        this.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        this.registerReceiver(this.batteryLevelReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
     }
 
     /**
      * Executed when the Accelerometer sensor values change
      */
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             mGravity = event.values.clone();
             // Shake detection
             float x = mGravity[0];
             float y = mGravity[1];
             float z = mGravity[2];
             mAccelLast = mAccelCurrent;
-            mAccelCurrent = (float)Math.sqrt(x*x + y*y + z*z);
+            mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
 
             //Handle motion detection
-            if(mAccel > 3){
+            if (mAccel > 3) {
                 exceedMovementThreshold++;
                 startSoundscape();
-                Toast.makeText(getApplicationContext(), "Motion Detected "+ exceedMovementThreshold,
+                Toast.makeText(getApplicationContext(), "Motion Detected " + exceedMovementThreshold,
                         Toast.LENGTH_SHORT).show();
             }
         }
