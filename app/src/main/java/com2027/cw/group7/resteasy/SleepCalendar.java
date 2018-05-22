@@ -10,13 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-//import java.awt.Cursor;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 //import javax.xml.crypto.Data;
@@ -35,6 +37,7 @@ public class SleepCalendar extends AppBaseActivity {
         super.onCreate(savedInstanceState);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final SleepCalendar context = this;
+        final Date date = Calendar.getInstance().getTime(); //Get current date
 
         /*
         myDb = new DatabaseHelper(this);
@@ -73,9 +76,10 @@ public class SleepCalendar extends AppBaseActivity {
                details = new ArrayList<String>();
 
                for (Map.Entry<String, SleepData> entry : map.entrySet()) {
+
                    SleepData sd = entry.getValue();
-                   values.add(entry.getKey() + " | Rating: " + sd.sleepRating + " | Length: " + sd.userSleepTime);
-                   details.add(sd.treatment + "\n" + sd.comment);
+                   values.add(date + "\nRating: " + sd.sleepRating + "% | Length: " + sd.userSleepTime + " hours");
+                   details.add(date + "\nTreatment: " + sd.treatment + "\nComment: " + sd.comment);
                }
                setContentView(R.layout.activity_sleep_calendar);
 
@@ -92,6 +96,7 @@ public class SleepCalendar extends AppBaseActivity {
 
                // Assign adapter to ListView
                listView.setAdapter(adapter);
+
 
                // ListView Item Click Listener
                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,6 +120,7 @@ public class SleepCalendar extends AppBaseActivity {
                });
            }
         });
+
     }
 
     @Override
