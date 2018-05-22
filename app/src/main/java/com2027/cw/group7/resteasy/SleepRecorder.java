@@ -1,39 +1,28 @@
 package com2027.cw.group7.resteasy;
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.SystemClock;
-import android.provider.BaseColumns;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CursorAdapter;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -88,7 +77,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
 
         mSensor = new SoundMeter(); // Used to record voice
 
-        //For keeping the device awake while the recorder is running
+        //For keeping the device awake while the recorder is running and dimming the screen
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
 
@@ -102,7 +91,25 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         mAccelLast = SensorManager.GRAVITY_EARTH;
         exceedMovementThreshold = 0;
 
+        this.registerReceiver(this.batteryLevelReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
+
     }
+
+    /**
+     * Executed when battery is low, to notify the user and stop recording
+     * (note: if battery is allready low when the recording starts it will not trigger)
+     */
+    private BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Toast.makeText(getApplicationContext(), "Battery level is low monitoring has stopped",
+                    Toast.LENGTH_SHORT).show();
+            stopSleep.performClick();
+
+        }
+    };
+
 
     public static void setMp(Context context, String soundscape) {
         if(soundscape.equals("Concentration")) {

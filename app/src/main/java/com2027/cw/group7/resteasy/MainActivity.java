@@ -1,11 +1,6 @@
 package com2027.cw.group7.resteasy;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;

@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +44,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     private MenuItem settingsMenu;
     private MenuItem sleepCalendar;
     private MenuItem sleepRecorder;
-    private MenuItem sleepReview;
     private MenuItem treatments;
 
     protected void alertDialog(String title, String message) {
@@ -74,10 +72,13 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     }
 
     protected void logout() {
+        Intent myIntent = new Intent(this, MainActivity.class);
+        startActivity(myIntent);
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
+
                         reevaluateAuthStatus();
                     }
                 });
@@ -92,7 +93,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         if (user != null) {
             sleepCalendar.setVisible(true);
             sleepRecorder.setVisible(true);
-            sleepReview.setVisible(true);
             treatments.setVisible(true);
             logoutMenu.setVisible(true);
             loginMenu.setVisible(false);
@@ -100,7 +100,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         } else {
             sleepCalendar.setVisible(false);
             sleepRecorder.setVisible(false);
-            sleepReview.setVisible(false);
             treatments.setVisible(false);
             logoutMenu.setVisible(false);
             loginMenu.setVisible(true);
@@ -130,7 +129,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         sleepCalendar = drawerMenu.findItem(R.id.sleep_calendar_menu);
         sleepRecorder = drawerMenu.findItem(R.id.sleep_recorder);
         treatments = drawerMenu.findItem(R.id.treatments_menu);
-        sleepReview = drawerMenu.findItem(R.id.test_sleep_review);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -244,11 +242,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 break;
             case R.id.sleep_calendar_menu:
                 myIntent = new Intent(this, SleepCalendar.class);
-                startActivity(myIntent);
-                finish();
-                break;
-            case R.id.test_sleep_review:
-                myIntent = new Intent(this, SleepReview.class);
                 startActivity(myIntent);
                 finish();
                 break;

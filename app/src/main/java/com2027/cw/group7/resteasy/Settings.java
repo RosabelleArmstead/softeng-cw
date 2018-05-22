@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -79,11 +78,11 @@ public class Settings extends AppBaseActivity {
         soundscapeSpinner = findViewById(R.id.soundscape_spinner);
 
         soundscapeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem = adapterView.getItemAtPosition(i).toString();
-                SleepRecorder.setMp(getApplicationContext(), selectedItem);
-            }
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    String selectedItem = adapterView.getItemAtPosition(i).toString();
+                    SleepRecorder.setMp(getApplicationContext(), selectedItem);
+                }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {

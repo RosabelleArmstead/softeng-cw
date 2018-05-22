@@ -64,4 +64,5 @@
     <string name="submit_suggestion">Submit Your Suggestion</string>
     <string name="user_suggestion_title_hint">Give your treatment a title...</string>
     <string name="user_suggestion_description_hint">Describe your treatment...</string>
+    <string name="soundscape_duration">Change Soundscape duration</string>
 </resources>

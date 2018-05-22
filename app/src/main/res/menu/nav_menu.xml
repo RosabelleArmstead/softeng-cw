@@ -12,33 +12,29 @@
     <item
         android:id="@+id/logout_menu"
         android:title="@string/logout_menu" />
-    <item android:id="@+id/settings_menu"
-        android:title="@string/settings_menu">
-
-    </item>
-
-    <item android:id="@+id/sleep_calendar_menu"
-        android:title="@string/sleep_calendar_menu">
-
-    </item>
-
-    <item android:id="@+id/info_menu"
-        android:title="@string/information_menu">
-
-    </item>
-
-    <item android:id="@+id/test_sleep_review"
-        android:title="@string/sleep_menu">
-
-    </item>
 
     <item android:id="@+id/sleep_recorder"
         android:title="@string/sleep_recorder">
+    </item>
 
+
+    <item android:id="@+id/sleep_calendar_menu"
+        android:title="@string/sleep_calendar_menu">
+    </item>
+
+    <item android:id="@+id/settings_menu"
+        android:title="@string/settings_menu">
     </item>
 
     <item android:id="@+id/treatments_menu"
         android:title="@string/treatments_menu">
-
     </item>
+
+    <item android:id="@+id/info_menu"
+        android:title="@string/information_menu">
+    </item>
+
+
+
+
 </menu>

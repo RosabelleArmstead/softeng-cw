@@ -28,7 +28,11 @@
         <activity
             android:name=".Treatments"
             android:label="@string/title_activity_treatments" />
-        <activity android:name=".TreatmentSuggestion"></activity>
+        <activity android:name=".TreatmentSuggestion">
+
+        </activity>
+
     </application>
+
 
 </manifest>

@@ -1,9 +1,8 @@
 package com2027.cw.group7.resteasy;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;

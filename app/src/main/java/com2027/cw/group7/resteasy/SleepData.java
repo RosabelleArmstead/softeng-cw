@@ -5,9 +5,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SleepData extends FireStore {
@@ -16,7 +14,7 @@ public class SleepData extends FireStore {
     public float userSleepTime;
     public String treatment;
     public String comment;
-
+    public String date;
     private SleepData() {
 
     }
@@ -26,30 +24,27 @@ public class SleepData extends FireStore {
     }
 
     public SleepData(int userRating, int sleepRating,
-                      float userSleepTime, String treatment, String comment) {
+                      float userSleepTime, String treatment, String comment, String date) {
         this.userRating = userRating;
         this.sleepRating = sleepRating;
         this.userSleepTime = userSleepTime;
         this.treatment = treatment;
         this.comment = comment;
+        this.date = date;
     }
 
     public Task<Void> save(String uid, Date d) {
         Log.d("RESTEASY_SleepData_Save", "SleepData: " + uid);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); //Set date format
-        String date = df.format(d);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return FireStore.save(db.collection("SleepData").document(uid)
-                .collection("SleepDays").document(date), this);
+                .collection("SleepDays").document(), this);
     }
 
     public static Task<SleepData> load(String uid, Date d) {
         Log.d("RESTEASY_SleepData_Load", "SleepData: " + uid);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); //Set date format
-        String date = df.format(d);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return FireStore.load(db.collection("SleepData").document(uid)
-                .collection("SleepDays").document(date), new SleepData());
+                .collection("SleepDays").document(), new SleepData());
     }
 
     public static Task<Map<String, SleepData>> loadAll(String uid) {
