@@ -56,7 +56,11 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     private float mAccelCurrent;
     private float mAccelLast;
     private int exceedMovementThreshold;
-    private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
+
+    /**
+     * Used to prevent user from recording sleep when battery is allready bellow 20%
+     */
+    private BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context ctxt, Intent intent) {
             int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
@@ -70,9 +74,10 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     };
     /**
      * Executed when battery is low, to notify the user and stop recording
-     * (note: if battery is allready low when the recording starts it will not trigger)
+     * (note: if battery is allready low when the recording starts it will not trigger,
+     * that is why there is another receiver for the battery)
      */
-    private BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver lowBatteryReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
@@ -170,8 +175,8 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         mAccelLast = SensorManager.GRAVITY_EARTH;
         exceedMovementThreshold = 0;
 
-        this.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        this.registerReceiver(this.batteryLevelReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
+        this.registerReceiver(this.batteryLevelReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        this.registerReceiver(this.lowBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
 
     }
 
@@ -295,15 +300,15 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         super.onPause();
         stopSoundscape();
         stop();
+        unregisterReceiver(lowBatteryReceiver);
         unregisterReceiver(batteryLevelReceiver);
-        unregisterReceiver(mBatInfoReceiver);
         sensorMan.unregisterListener(this);
     }
 
     protected void onResume() {
         super.onResume();
-        this.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        this.registerReceiver(this.batteryLevelReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
+        this.registerReceiver(this.batteryLevelReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        this.registerReceiver(this.lowBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
     }
 
     /**

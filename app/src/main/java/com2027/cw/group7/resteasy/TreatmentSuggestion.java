@@ -42,9 +42,15 @@ public class TreatmentSuggestion extends AppBaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> t) {
                         Toast.makeText(TreatmentSuggestion.this, "Suggestion Submitted!", Toast.LENGTH_LONG).show();
-                        backToTreatments();
+
                     }
+
                 });
+                /*
+                 * This is outside the save part, so that it redirects the user even if he is
+                 * offline. The data will be saved when he goes online again.
+                 */
+                backToTreatments();
             }
         });
     }

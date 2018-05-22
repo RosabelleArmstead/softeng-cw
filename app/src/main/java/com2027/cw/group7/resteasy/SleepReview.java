@@ -43,7 +43,7 @@ public class SleepReview extends AppBaseActivity {
     private String selectedTreatment; // Holds selected treatment
     private Button submit; // Submit sleep review
     private String date;
-
+    boolean online;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +55,8 @@ public class SleepReview extends AppBaseActivity {
         treatmentsSpinner = (Spinner) findViewById(R.id.treatments_spinner);
         sleepRating = (TextView) findViewById(R.id.sleep_rating);
         submit = (Button) findViewById(R.id.submit_sleep_review);
+
+        ratingBar.setRating(0F); // Clear all the stars
 
         // Execute when the user changes his rating, to update the sleep score
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -101,22 +103,28 @@ public class SleepReview extends AppBaseActivity {
 
                 // Creat object for sleep data with values from user
                 SleepData sd = new SleepData(Math.round(ratingBar.getRating()), sleepScore, sleepTime, selectedTreatment, comment.getText().toString(), date);
-
+                online = false;
                 // Save sleep data for user
                 sd.save(user.getUid(), d).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> t) {
+                        online = true;
+
                         if (t.isSuccessful()) {
                             Toast.makeText(SleepReview.this, "Data Inserted", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(SleepReview.this, "Data Insertion Failed", Toast.LENGTH_SHORT).show();
                         }
-
-                        Intent myIntent = new Intent(SleepReview.this, SleepRecorder.class);
-                        SleepReview.this.startActivity(myIntent);
                     }
+
                 });
 
+                /*
+                 * This is outside the save part, so that it redirects the user even if he is
+                 * offline. The data will be saved when he goes online again.
+                 */
+                Intent myIntent = new Intent(SleepReview.this, SleepRecorder.class);
+                SleepReview.this.startActivity(myIntent);
             }
         });
     }
