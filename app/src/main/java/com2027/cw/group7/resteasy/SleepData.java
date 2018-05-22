@@ -9,9 +9,9 @@ import java.util.Date;
 import java.util.Map;
 
 public class SleepData extends FireStore {
-    public int userRating;
-    public int sleepRating;
-    public float userSleepTime;
+    public long userRating;
+    public long sleepRating;
+    public double userSleepTime;
     public String treatment;
     public String comment;
     public String date;
@@ -23,7 +23,7 @@ public class SleepData extends FireStore {
         return new SleepData();
     }
 
-    public SleepData(int userRating, int sleepRating,
+    public SleepData(long userRating, long sleepRating,
                       float userSleepTime, String treatment, String comment, String date) {
         this.userRating = userRating;
         this.sleepRating = sleepRating;
