@@ -40,6 +40,8 @@ public class SleepCalendar extends AppBaseActivity {
         final SleepCalendar context = this;
         final Date date = Calendar.getInstance().getTime(); //Get current date
 
+
+
         /*
         myDb = new DatabaseHelper(this);
         sqLiteDatabase = myDb.getReadableDatabase();
