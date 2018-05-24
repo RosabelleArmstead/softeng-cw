@@ -65,4 +65,12 @@
     <string name="user_suggestion_title_hint">Give your treatment a title...</string>
     <string name="user_suggestion_description_hint">Describe your treatment...</string>
     <string name="soundscape_duration">Change Soundscape duration</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="email">E-Mail</string>
+    <string name="confirm_pass">Confirm password</string>
+    <string name="username">Username</string>
+    <string name="age">Age</string>
+    <string name="sex">Sex</string>
+    <string name="suffering">Suffering</string>
 </resources>

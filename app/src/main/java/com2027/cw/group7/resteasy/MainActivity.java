@@ -1,5 +1,6 @@
 package com2027.cw.group7.resteasy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,7 @@ public class MainActivity extends AppBaseActivity {
     private TextView loggedOutText;
 
     public void loginClick(View v) {
-        login();
+        startActivity(new Intent(this, Login.class));
     }
 
     public void logoutClick(View v) {

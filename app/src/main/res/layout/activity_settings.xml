@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <RelativeLayout
+
+        <RelativeLayout
         android:id="@+id/loadingPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center" >
+        android:gravity="center">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -46,6 +51,45 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/age"
+        android:text="@string/age"
+        android:textSize="25sp" />
+
+    <Spinner
+        android:id="@+id/age"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:entries="@array/ages" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/sex"
+        android:text="@string/sex"
+        android:textSize="25sp" />
+
+    <Spinner
+        android:id="@+id/sex"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:entries="@array/sexes" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/suffering"
+        android:text="@string/suffering"
+        android:textSize="25sp" />
+
+    <Spinner
+        android:id="@+id/suffering"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:entries="@array/suffering" />
 
     <TextView
         android:id="@+id/textView"
@@ -99,3 +143,4 @@
         android:text="@string/save"
         android:textSize="30sp" />
 </LinearLayout>
+</ScrollView>

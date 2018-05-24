@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -71,6 +72,7 @@ public class SleepCalendar extends AppBaseActivity {
            @Override
            public void onComplete(@NonNull Task<Map<String, SleepData>> t) {
                Map<String, SleepData> map = t.getResult();
+               Log.d("RESTEASY_SleepCal", "Map Size: " + map.size());
 
                ArrayList<String> values = new ArrayList<String>();
                details = new ArrayList<String>();

@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Login" />
+        <activity android:name=".SignUp" />
         <activity android:name=".SleepCalendar" />
         <activity android:name=".Settings" />
         <activity android:name=".Information" />

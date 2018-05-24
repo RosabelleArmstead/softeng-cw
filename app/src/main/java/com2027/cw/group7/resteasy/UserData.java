@@ -7,6 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserData extends FireStore {
     public String defaultSoundscape;
+    public String ageRange;
+    public String sex;
+    public String suffering;
 
     public UserData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)

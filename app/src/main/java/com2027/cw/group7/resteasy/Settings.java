@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,10 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Settings extends AppBaseActivity {
-    private TextView confirmPassword;
-    private TextView editPassword;
-    private TextView editEMail;
-    private TextView editName;
+    private EditText confirmPassword;
+    private EditText editPassword;
+    private EditText editEMail;
+    private EditText editName;
+    private Spinner editAge;
+    private Spinner editSex;
+    private Spinner editSuffering;
     private Spinner soundscapeSpinner;
     private ArrayAdapter<CharSequence> infoSpinnerAdapter;
     private UserData userData;
@@ -42,6 +46,9 @@ public class Settings extends AppBaseActivity {
         editPassword = findViewById(R.id.edit_password);
         editEMail = findViewById(R.id.edit_email);
         editName = findViewById(R.id.edit_name);
+        editAge = findViewById(R.id.age);
+        editSex = findViewById(R.id.sex);
+        editSuffering = findViewById(R.id.suffering);
 
         // Load default value
         if (user != null) {
@@ -58,6 +65,27 @@ public class Settings extends AppBaseActivity {
                         Log.d("RESTEASY_UserData", "Default Soundscape: " + userData.defaultSoundscape);
                         int spinnerPosition = infoSpinnerAdapter.getPosition(userData.defaultSoundscape);
                         soundscapeSpinner.setSelection(spinnerPosition);
+                    }
+                    Log.d("RESTEASY_UserData",
+                            userData.ageRange + " " +
+                                    userData.sex + " " + userData.suffering);
+                    for (int i=0; i < editAge.getCount(); i++){
+                        if (editAge.getItemAtPosition(i).toString().equals(userData.ageRange)){
+                            editAge.setSelection(i);
+                            break;
+                        }
+                    }
+                    for (int i=0; i < editSex.getCount(); i++){
+                        if (editSex.getItemAtPosition(i).toString().equals(userData.sex)){
+                            editSex.setSelection(i);
+                            break;
+                        }
+                    }
+                    for (int i=0; i < editSuffering.getCount(); i++){
+                        if (editSuffering.getItemAtPosition(i).toString().equals(userData.suffering)){
+                            editSuffering.setSelection(i);
+                            break;
+                        }
                     }
                     findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                 }
@@ -91,11 +119,14 @@ public class Settings extends AppBaseActivity {
         });
     }
 
-    private Task<Void> updateUserData(String soundscape) {
+    private Task<Void> updateUserData(String soundscape, String age, String sex, String suffering) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null || soundscape.isEmpty() ||
                 soundscape.equals(userData.defaultSoundscape)) return null;
         userData.defaultSoundscape = soundscape;
+        userData.ageRange = age;
+        userData.sex = sex;
+        userData.suffering = suffering;
         return userData.save(user.getUid());
     }
 
@@ -188,7 +219,11 @@ public class Settings extends AppBaseActivity {
                             Task<Void> profileTask = updateProfile(editName.getText().toString());
                             if (profileTask != null) taskList.add(profileTask);
 
-                            Task<Void> updateUserData = updateUserData(soundscapeSpinner.getSelectedItem().toString());
+                            Task<Void> updateUserData = updateUserData(
+                                    soundscapeSpinner.getSelectedItem().toString(),
+                                    editAge.getSelectedItem().toString(),
+                                    editSex.getSelectedItem().toString(),
+                                    editSuffering.getSelectedItem().toString());
                             if (updateUserData != null) taskList.add(updateUserData);
 
                             if (taskList.isEmpty()) {

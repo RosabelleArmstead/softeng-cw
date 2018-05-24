@@ -78,7 +78,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
-
                         reevaluateAuthStatus();
                     }
                 });
@@ -223,8 +222,10 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 finish();
                 break;
             case R.id.login_menu:
-                login();
-                mDrawerLayout.closeDrawers();
+                //login();
+                //mDrawerLayout.closeDrawers();
+                myIntent = new Intent(this, Login.class);
+                startActivity(myIntent);
                 return true;
             case R.id.logout_menu:
                 logout();

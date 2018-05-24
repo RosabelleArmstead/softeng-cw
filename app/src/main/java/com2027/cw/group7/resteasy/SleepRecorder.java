@@ -192,7 +192,10 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
                 startTime = SystemClock.uptimeMillis();
                 customHandler.postDelayed(updateTimerThread, 0);
                 mRunning = true;
+
+                Log.d("SleepRecorder", "Starting mic...");
                 start();
+                Log.d("SleepRecorder", "Starting soundscape...");
                 startSoundscape();
 
             }
@@ -205,8 +208,11 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
                 startSleep.setVisibility(View.VISIBLE);
                 stopSleep.setVisibility(View.GONE);
                 customHandler.removeCallbacks(updateTimerThread);
+
                 //timer.getText().toString();
+                Log.d("SleepRecorder", "Stopping mic...");
                 stop();
+                Log.d("SleepRecorder", "Stopping soundscape...");
                 stopSoundscape();
 
                 Intent myIntent = new Intent(SleepRecorder.this, SleepReview.class);
@@ -236,10 +242,14 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
             mSensor.start(); //Start recording
         }
 
+        Log.d("SleepRecorder", "Mic sensor started...");
+
         //Keep the screen on while recording
         if (!mWakeLock.isHeld()) {
             mWakeLock.acquire();
         }
+
+        Log.d("SleepRecorder", "Screen lock acquired...");
 
         // Register sensor
         sensorMan.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
