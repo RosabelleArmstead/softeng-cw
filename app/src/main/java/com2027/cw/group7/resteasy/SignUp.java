@@ -77,11 +77,23 @@ public class SignUp extends AppBaseActivity {
             Toast.makeText(SignUp.this, "Empty password field.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+        String pass = password.getText().toString();
+        if (!pass.equals(confirmPassword.getText().toString())) {
             Toast.makeText(SignUp.this, "Passwords do not match.",  Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (pass.length() < 8) {
+            Toast.makeText(SignUp.this, "Password must be more than 8 characters.",  Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!pass.matches(".*\\d+.*")) {
+            Toast.makeText(SignUp.this, "Password must contain a number.",  Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!pass.matches(".*[A-Z]+.*")) {
+            Toast.makeText(SignUp.this, "Password must contain a capital letter.",  Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (!termsCheck.isChecked()) {
             Toast.makeText(SignUp.this, "Terms and Conditions not accepted.",  Toast.LENGTH_SHORT).show();
             return;

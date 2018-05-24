@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -201,6 +202,22 @@ public class Settings extends AppBaseActivity {
 
         AuthCredential credential = EmailAuthProvider
                 .getCredential(user.getEmail(), currentPassword);
+
+        String pass = editPassword.getText().toString();
+        if (pass.length() > 0) {
+            if (pass.length() < 8) {
+                Toast.makeText(Settings.this, "Password must be more than 8 characters.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!pass.matches(".*\\d+.*")) {
+                Toast.makeText(Settings.this, "Password must contain a number.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!pass.matches(".*[A-Z]+.*")) {
+                Toast.makeText(Settings.this, "Password must contain a capital letter.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
 
         // Prompt the user to re-provide their sign-in credentials
         user.reauthenticate(credential)
