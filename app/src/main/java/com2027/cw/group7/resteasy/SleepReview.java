@@ -111,7 +111,7 @@ public class SleepReview extends AppBaseActivity {
                         online = true;
 
                         if (t.isSuccessful()) {
-                            Toast.makeText(SleepReview.this, "Data Inserted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SleepReview.this, "Data Inserted\nSee the information page to find out what happens to your data", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(SleepReview.this, "Data Insertion Failed", Toast.LENGTH_SHORT).show();
                         }
