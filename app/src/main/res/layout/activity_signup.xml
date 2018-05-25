@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="25dp"
+        android:text="@string/signup"
+        android:textSize="45sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/displayname"
+        android:text="@string/username"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/displayname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/username"
+        android:text="@string/email"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/age"
+        android:text="@string/age"
+        android:textSize="25sp" />
+
+    <Spinner
+        android:id="@+id/age"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:entries="@array/ages" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/sex"
+        android:text="@string/sex"
+        android:textSize="25sp" />
+
+    <Spinner
+        android:id="@+id/sex"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:entries="@array/sexes" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/suffering"
+        android:text="@string/suffering"
+        android:textSize="25sp" />
+
+    <Spinner
+        android:id="@+id/suffering"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:entries="@array/suffering" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/password"
+        android:text="@string/fui_password_hint"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/confirm_password"
+        android:text="@string/confirm_pass"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/termsCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I accept the "
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/termsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Terms and Conditions"
+            android:textColor="@color/fui_linkColor"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/Button1"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="signUpSubmit"
+        android:text="@string/signup"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/Button2"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="loginBack"
+        android:text="@string/login"
+        android:textSize="30sp" />
+
+</LinearLayout>
+</ScrollView>
