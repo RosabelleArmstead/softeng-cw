@@ -62,5 +62,14 @@
         android:onClick="signUpClick"
         android:text="@string/signup"
         android:textSize="30sp" />
+
+    <Button
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="passwordReset"
+        android:text="Reset password"
+        android:textSize="30sp" />
+
 </LinearLayout>
 </ScrollView>

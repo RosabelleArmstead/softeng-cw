@@ -29,6 +29,25 @@ public class Login extends AppBaseActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    public void passwordReset(View v) {
+        if (username.getText().length() == 0) {
+            Toast.makeText(Login.this, "Empty email field.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String emailAddress = username.getText().toString();
+
+        auth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("RESTEASY_Login", "Password reet email sent.");
+                            Toast.makeText(Login.this, "Password reset email sent", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
     public void loginSubmit(View v) {
         if (username.getText().length() == 0) {
             Toast.makeText(Login.this, "Empty email field.", Toast.LENGTH_SHORT).show();

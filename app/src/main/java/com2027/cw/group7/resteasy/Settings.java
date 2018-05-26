@@ -123,7 +123,11 @@ public class Settings extends AppBaseActivity {
     private Task<Void> updateUserData(String soundscape, String age, String sex, String suffering) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null || soundscape.isEmpty() ||
-                soundscape.equals(userData.defaultSoundscape)) return null;
+                (soundscape.equals(userData.defaultSoundscape) &&
+                age.equals(userData.ageRange) &&
+                sex.equals(userData.sex) &&
+                suffering.equals(userData.suffering))) return null;
+
         userData.defaultSoundscape = soundscape;
         userData.ageRange = age;
         userData.sex = sex;
