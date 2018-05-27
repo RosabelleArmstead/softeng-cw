@@ -39,6 +39,7 @@
     </string-array>
 
     <string-array name="soundscapes">
+        <item>None</item>
         <item>Concentration</item>
         <item>Fresh Air</item>
         <item>Soaring</item>

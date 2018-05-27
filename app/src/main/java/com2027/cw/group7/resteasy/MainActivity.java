@@ -56,7 +56,6 @@ public class MainActivity extends AppBaseActivity {
         loggedInText = findViewById(R.id.loggedInText);
         loggedName = findViewById(R.id.loggedName);
         loggedOutText = findViewById(R.id.loggedOutText);
-        SleepRecorder.setMp(getApplicationContext(), "Sound"); //set default soundscape
     }
 
     @Override

@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
@@ -38,6 +40,8 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     private static MediaPlayer mp; //Used for playing the soundscape
     private Button startSleep, stopSleep; //Buttons for starting and stoping the sleep recording
     private TextView timer; //Displays time elapsed after recording was started
+    private TextView selectedSoundscape; //Displays selected soundscape
+    private static String soundscapeSelected = "None";
     private long startTime, timeInMilliseconds = 0; //Used for calculating elapsed time
     private Handler customHandler = new Handler(); //For counting time on a different thread
     private boolean mRunning = false; //Flag that shows if the recorder is running
@@ -47,6 +51,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     private SoundMeter mSensor; //Data source
     private int exceedSoundThreshold; //Used to count the amount of times that the sound amplitude exceeded the threshold set
     private long soundscapeStartTime, soundscapeTargetTime; //The start time of the soundscape and the end time, used to stop the soundscape after a certain amount of time
+    private static boolean isSoundscape;
 
     //Used for motion detection
     private SensorManager sensorMan;
@@ -95,7 +100,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
             timer.setText(getDateFromMillis(timeInMilliseconds));
-            if (soundscapeTargetTime <= timeInMilliseconds) {
+            if (soundscapeTargetTime <= timeInMilliseconds && isSoundscape) {
                 stopSoundscape();
             }
 
@@ -120,6 +125,8 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     };
 
     public static void setMp(Context context, String soundscape) {
+        isSoundscape = true;
+        soundscapeSelected = soundscape;
         if (soundscape.equals("Concentration")) {
             //set soundscape
             mp = MediaPlayer.create(context, R.raw.concentration);
@@ -130,6 +137,8 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
             mp = MediaPlayer.create(context, R.raw.soaring);
         } else if (soundscape.equals("Sound")) {
             mp = MediaPlayer.create(context, R.raw.sound);
+        } else if (soundscape.equals("None")) {
+            isSoundscape = false;
         }
     }
 
@@ -155,8 +164,12 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
 
         setupButtons(); //Initialise all the buttons
         timer = (TextView) findViewById(R.id.timer); //Initialise the textView that counts the time
+        selectedSoundscape = (TextView) findViewById(R.id.soundscape_selected); //Initialise selected soundscape
+        selectedSoundscape.setText("Soundscape Selected: " + soundscapeSelected);
 
-        mp.setLooping(true); //Allow the audio clip to loop after it has finished
+        if (isSoundscape) {
+            mp.setLooping(true); //Allow the audio clip to loop after it has finished
+        }
 
 
         mSensor = new SoundMeter(); // Used to record voice
@@ -195,8 +208,11 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
 
                 Log.d("SleepRecorder", "Starting mic...");
                 start();
-                Log.d("SleepRecorder", "Starting soundscape...");
-                startSoundscape();
+
+                if (isSoundscape) {
+                    Log.d("SleepRecorder", "Starting soundscape...");
+                    startSoundscape();
+                }
 
             }
         });
@@ -212,12 +228,13 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
                 //timer.getText().toString();
                 Log.d("SleepRecorder", "Stopping mic...");
                 stop();
-                Log.d("SleepRecorder", "Stopping soundscape...");
-                stopSoundscape();
+                if (isSoundscape) {
+                    Log.d("SleepRecorder", "Stopping soundscape...");
+                    stopSoundscape();
+                }
 
                 Intent myIntent = new Intent(SleepRecorder.this, SleepReview.class);
 
-                timeInMilliseconds = 18000000;//18000000 ms = 5 hours for testing
                 long sleepTime = (timeInMilliseconds / 1000) / 3600; // Convert ms to hours
                 String information = sleepTime + " " + exceedSoundThreshold + " " + exceedMovementThreshold;
                 Log.d("SleepRecorder", information);
@@ -278,7 +295,9 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
      */
     private void handleSound() {
         exceedSoundThreshold++;
-        startSoundscape();
+        if(isSoundscape) {
+            startSoundscape();
+        }
         // Show alert when noise thersold crossed
         Toast.makeText(getApplicationContext(), "Sound Thersold Crossed " + exceedSoundThreshold,
                 Toast.LENGTH_SHORT).show();
@@ -290,7 +309,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     private void startSoundscape() {
         mp.start();
         soundscapeStartTime = SystemClock.uptimeMillis() - startTime;
-        soundscapeTargetTime = soundscapeStartTime + 10000; //Stop playing after 10 seconds
+        soundscapeTargetTime = soundscapeStartTime + 10000 * 60; //Stop playing after 10 minutes
     }
 
     /**
@@ -308,7 +327,9 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
      */
     protected void onPause() {
         super.onPause();
-        stopSoundscape();
+        if (isSoundscape) {
+            stopSoundscape();
+        }
         stop();
         unregisterReceiver(lowBatteryReceiver);
         unregisterReceiver(batteryLevelReceiver);
@@ -339,7 +360,9 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
             //Handle motion detection
             if (mAccel > 3) {
                 exceedMovementThreshold++;
-                startSoundscape();
+                if(isSoundscape) {
+                    startSoundscape();
+                }
                 Toast.makeText(getApplicationContext(), "Motion Detected " + exceedMovementThreshold,
                         Toast.LENGTH_SHORT).show();
             }
