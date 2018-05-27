@@ -23,8 +23,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
@@ -52,6 +50,7 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
     private int exceedSoundThreshold; //Used to count the amount of times that the sound amplitude exceeded the threshold set
     private long soundscapeStartTime, soundscapeTargetTime; //The start time of the soundscape and the end time, used to stop the soundscape after a certain amount of time
     private static boolean isSoundscape;
+    private double sleepTime;
 
     //Used for motion detection
     private SensorManager sensorMan;
@@ -233,9 +232,24 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
                     stopSoundscape();
                 }
 
+
+
                 Intent myIntent = new Intent(SleepRecorder.this, SleepReview.class);
 
-                long sleepTime = (timeInMilliseconds / 1000) / 3600; // Convert ms to hours
+                //Get time from timer and convert to minutes
+                String time = timer.getText().toString();
+                double minutes = 0;
+                String[] split = time.split(":");
+
+                try {
+                    minutes += Double.parseDouble(split[0]) * 60;
+                    minutes += Double.parseDouble(split[1]);
+                    minutes += Math.round(Double.parseDouble(split[2]) / 60);
+                } catch (Exception e) {
+                    Log.e("minutes", "exception", e);
+                }
+
+                sleepTime = minutes / 60; // Convert minutes to hours
                 String information = sleepTime + " " + exceedSoundThreshold + " " + exceedMovementThreshold;
                 Log.d("SleepRecorder", information);
 
@@ -254,8 +268,11 @@ public class SleepRecorder extends AppBaseActivity implements SensorEventListene
 
             ActivityCompat.requestPermissions(SleepRecorder.this, new String[]{Manifest.permission.RECORD_AUDIO},
                     1);
-
+            Toast.makeText(getApplicationContext(), "Permissions accepted, please restart the recording",
+                    Toast.LENGTH_LONG).show();
         } else {
+            Toast.makeText(getApplicationContext(), "Please keep your device unlocked while recording",
+                    Toast.LENGTH_SHORT).show();
             mSensor.start(); //Start recording
         }
 

@@ -24,7 +24,7 @@ public class SleepData extends FireStore {
     }
 
     public SleepData(long userRating, long sleepRating,
-                      float userSleepTime, String treatment, String comment, String date) {
+                      double userSleepTime, String treatment, String comment, String date) {
         this.userRating = userRating;
         this.sleepRating = sleepRating;
         this.userSleepTime = userSleepTime;

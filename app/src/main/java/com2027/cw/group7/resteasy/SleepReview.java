@@ -29,10 +29,8 @@ import java.util.Map;
 public class SleepReview extends AppBaseActivity {
 
     private List<String> titles = new ArrayList<String>();
-
-
     private String information; // Sleep recording information
-    private int sleepTime; // Time of sleep
+    private double sleepTime; // Time of sleep
     private int exceedSoundThreshold; // How many times the sound threshold was exceeded
     private int exceedMovementThreshold; // How many times the sound threshold was exceeded
 
@@ -42,8 +40,7 @@ public class SleepReview extends AppBaseActivity {
     private Spinner treatmentsSpinner; // Allows user to select a treatment, if any were used
     private String selectedTreatment; // Holds selected treatment
     private Button submit; // Submit sleep review
-    private String date;
-    boolean online;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,12 +100,10 @@ public class SleepReview extends AppBaseActivity {
 
                 // Creat object for sleep data with values from user
                 SleepData sd = new SleepData(Math.round(ratingBar.getRating()), sleepScore, sleepTime, selectedTreatment, comment.getText().toString(), date);
-                online = false;
                 // Save sleep data for user
                 sd.save(user.getUid(), d).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> t) {
-                        online = true;
 
                         if (t.isSuccessful()) {
                             Toast.makeText(SleepReview.this, "Data Inserted\nSee the information page to find out what happens to your data", Toast.LENGTH_SHORT).show();
@@ -180,7 +175,7 @@ public class SleepReview extends AppBaseActivity {
         String[] splited = information.split("\\s+");
 
         try {
-            sleepTime = Integer.parseInt(splited[0]);
+            sleepTime = Double.parseDouble(splited[0]);
             exceedSoundThreshold = Integer.parseInt(splited[1]);
             exceedMovementThreshold = Integer.parseInt(splited[2]);
         } catch (NumberFormatException nfe) {
@@ -196,15 +191,19 @@ public class SleepReview extends AppBaseActivity {
      * @param exceedMovementThreshold # of times the movement threshold was crossed
      * @return the sleep rating
      */
-    private String calculateSleepRating(int sleepTime, int exceedSoundThreshold, int exceedMovementThreshold) {
+    private String calculateSleepRating(double sleepTime, int exceedSoundThreshold, int exceedMovementThreshold) {
         double sleepRating = 60;
         Log.d("SleepReview Ints", sleepTime + " " + exceedSoundThreshold + " " + exceedMovementThreshold);
-
         sleepRating = (sleepRating - (exceedSoundThreshold + exceedMovementThreshold) - (Math.abs(sleepTime - 7.5)) * 4) * (ratingBar.getRating() / 3);
         if (sleepRating < 0) sleepRating = 0;
         if (sleepRating > 100) sleepRating = 100;
         int intSleepTime = (int) Math.round(sleepRating);
         submit.setEnabled(true);
+
+        // Because of initial value of 60, small sleep times produce high sleep ratings.
+        // This is to adjust the sleep rating in those scenarios.
+        if (sleepTime <= 0.4) intSleepTime = intSleepTime / 2;
+        if (sleepTime <= 1.5 && sleepTime > 0.4) Math.round(sleepRating * 0.666666);
 
         return Integer.toString(intSleepTime);
     }

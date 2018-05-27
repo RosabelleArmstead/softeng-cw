@@ -1,7 +1,6 @@
 package com2027.cw.group7.resteasy;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -11,15 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 
 //import javax.xml.crypto.Data;
@@ -29,44 +27,13 @@ import java.util.Map;
  */
 public class SleepCalendar extends AppBaseActivity {
     ListView listView ;
-    private DatabaseHelper myDb;
-    private android.database.Cursor cursor;
-    private SQLiteDatabase sqLiteDatabase;
+
     private ArrayList<String> details;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final SleepCalendar context = this;
-        final Date date = Calendar.getInstance().getTime(); //Get current date
-
-
-
-        /*
-        myDb = new DatabaseHelper(this);
-        sqLiteDatabase = myDb.getReadableDatabase();
-        cursor = sqLiteDatabase.rawQuery("SELECT * FROM sleeps_table",
-                null);
-        */
-
-        /*
-        if (cursor.moveToFirst()) {
-            do {
-
-                String date = cursor.getString(cursor.getColumnIndex("DATE"));
-                String user_rating = cursor.getString(cursor.getColumnIndex("USERRATING"));
-                String sleep_rating = cursor.getString(cursor.getColumnIndex("SLEEPRATING"));
-                String sleep_duration = cursor.getString(cursor.getColumnIndex("USERSLEEPTIME"));
-                String treatment = cursor.getString(cursor.getColumnIndex("TREATMENT"));
-                String comment = cursor.getString(cursor.getColumnIndex("COMMENT"));
-
-                values.add(date + " | Rating: " + sleep_rating + " | Length: " + sleep_duration);
-                details.add(treatment + "\n" + comment);
-
-            }while(cursor.moveToNext());
-        }
-        cursor.close();
-        */
         if (user == null) return;
 
         SleepData.loadAll(user.getUid()).addOnCompleteListener(
@@ -78,12 +45,13 @@ public class SleepCalendar extends AppBaseActivity {
 
                ArrayList<String> values = new ArrayList<String>();
                details = new ArrayList<String>();
+               NumberFormat format = new DecimalFormat("#0.0"); // Only show 1 decimal point for sleep time
 
                for (Map.Entry<String, SleepData> entry : map.entrySet()) {
 
                    SleepData sd = entry.getValue();
-                   values.add(date + "\nRating: " + sd.sleepRating + "% | Length: " + sd.userSleepTime + " hours");
-                   details.add(date + "\nTreatment: " + sd.treatment + "\nComment: " + sd.comment);
+                   values.add("Sleep date: " +sd.date+ "\nRating: " + sd.sleepRating + "% | Length: " + sd.userSleepTime + " hours");
+                   details.add("\nTreatment: " + sd.treatment + "\nComment: " + sd.comment);
                }
                setContentView(R.layout.activity_sleep_calendar);
 
@@ -120,11 +88,9 @@ public class SleepCalendar extends AppBaseActivity {
                                .show();
 
                    }
-
                });
            }
         });
-
     }
 
     @Override
