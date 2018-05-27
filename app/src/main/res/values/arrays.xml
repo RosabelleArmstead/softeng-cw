@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="ages">
-        <item>6&#8211;13 years</item>
-        <item>14&#8211;17 years</item>
-        <item>18&#8211;64 years</item>
+        <item>6 to 13 years</item>
+        <item>14 to 17 years</item>
+        <item>18 to 64 years</item>
         <item>65+ years</item>
     </string-array>
     <string-array name="sexes">

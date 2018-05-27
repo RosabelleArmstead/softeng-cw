@@ -1,6 +1,8 @@
 package com2027.cw.group7.resteasy;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,11 +20,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private ArrayList<String> titles = new ArrayList<>();
     private ArrayList<String> descriptions = new ArrayList<>();
+    private ArrayList<Boolean> suggestions = new ArrayList<>();
     private Context context;
 
-    public RecyclerViewAdapter(ArrayList<String> titles, ArrayList<String> descriptions, Context context) {
+    public RecyclerViewAdapter(ArrayList<String> titles,
+                               ArrayList<String> descriptions,
+                               ArrayList<Boolean> suggestions, Context context) {
         this.titles = titles;
         this.descriptions = descriptions;
+        this.suggestions = suggestions;
         this.context = context;
     }
 
@@ -42,7 +48,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.title.setText(titles.get(position));
         holder.description.setText(descriptions.get(position));
+        Boolean suggestion = suggestions.get(position);
 
+        if (suggestion == null) {
+            holder.suggestion.setText("This treatment does not have a recommendation");
+            holder.suggestion.setTextColor(Color.BLACK);
+        }
+        else if (suggestion) {
+            holder.suggestion.setText("This treatment is recommended");
+            holder.suggestion.setTextColor(Color.GREEN);
+        } else {
+            holder.suggestion.setText("This treatment is NOT recommended");
+            holder.suggestion.setTextColor(Color.RED);
+        }
     }
 
     @Override
@@ -51,15 +69,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView title;
         TextView description;
+        TextView suggestion;
         RelativeLayout itemLayout;
         public ViewHolder(View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.list_suggestion_title);
             description = itemView.findViewById(R.id.list_suggestion_description);
+            suggestion = itemView.findViewById(R.id.list_suggestion_suggestion);
             itemLayout = itemView.findViewById(R.id.item_layout);
         }
     }

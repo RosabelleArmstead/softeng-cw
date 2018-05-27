@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,12 +67,21 @@ class LoadContinuation<T extends FireStore> implements Continuation<DocumentSnap
 }
 
 public abstract class FireStore {
+
     abstract <T> T create();
 
-    <T> T create(DocumentSnapshot ds) throws IllegalAccessException {
+    <T> T create(DocumentSnapshot ds) throws IllegalAccessException, NoSuchFieldException {
         T cls = create();
         for (Field f : cls.getClass().getDeclaredFields()) {
-            if (!java.lang.reflect.Modifier.isStatic(f.getModifiers())
+            if (f.getName().equals("otherVals")) {
+                HashMap<String, Object> values = (HashMap<String, Object>)f.get(cls);
+                ArrayList<String> fields = (ArrayList<String>)
+                        cls.getClass().getDeclaredField("otherFields").get(cls);
+                for (String c : fields) {
+                    values.put(c, ds.get(c));
+                }
+            }
+            else if (!java.lang.reflect.Modifier.isStatic(f.getModifiers())
                     && ds.contains(f.getName())) {
                 f.set(cls, ds.get(f.getName()));
                 Log.d("RESTEASY_FireStore_Load",

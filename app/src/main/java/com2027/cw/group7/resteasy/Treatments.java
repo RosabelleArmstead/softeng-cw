@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,6 +22,8 @@ public class Treatments extends AppBaseActivity {
     private Button suggestionBtn;
     private ArrayList<String> titles = new ArrayList<>();
     private ArrayList<String> descriptions = new ArrayList<>();
+    private ArrayList<Boolean> suggestions = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,25 +64,52 @@ public class Treatments extends AppBaseActivity {
         titles.add("Pillow Spray");
         descriptions.add("Using a pillow spray with certain scents such as Lavender, can promote the release of sleep hormones");
 */
-        TreatmentData.loadAll().addOnCompleteListener(
-            new OnCompleteListener<Map<String, TreatmentData>>() {
-                @Override
-                public void onComplete(@NonNull Task<Map<String, TreatmentData>> t) {
-                    Map<String, TreatmentData> map = t.getResult();
-                    for (Map.Entry<String, TreatmentData> entry : map.entrySet()) {
-                        TreatmentData td = entry.getValue();
-                        titles.add(td.title);
-                        descriptions.add(td.description);
-                    }
-                    initRecyclerView();
-                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-                }
-            });
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        UserData.load(user.getUid()).addOnCompleteListener(new OnCompleteListener<UserData>() {
+            @Override
+            public void onComplete(@NonNull Task<UserData> t) {
+                final UserData userData = t.getResult();
+                TreatmentData.loadAll().addOnCompleteListener(
+                        new OnCompleteListener<Map<String, TreatmentData>>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Map<String, TreatmentData>> t) {
+                                Map<String, TreatmentData> map = t.getResult();
+                                for (Map.Entry<String, TreatmentData> entry : map.entrySet()) {
+                                    TreatmentData td = entry.getValue();
+                                    titles.add(td.title);
+                                    descriptions.add(td.description);
+                                    Boolean suggestion = null;
+                                    if (td.otherVals.containsKey(userData.ageRange) &&
+                                        td.otherVals.containsKey(userData.sex) &&
+                                        td.otherVals.containsKey(userData.suffering)) {
+                                        long average = ((long)td.otherVals.get(userData.ageRange) +
+                                                        (long)td.otherVals.get(userData.sex) +
+                                                        (long)td.otherVals.get(userData.suffering)) / 3;
+
+                                        if (average >= 60) {
+                                            suggestion = true;
+                                        } else if (average <= 40) {
+                                            suggestion = false;
+                                        }
+
+                                    } else {
+                                        Log.d("RESTEASY_Treatment", "Problem User: " + userData.toString());
+                                        Log.d("RESTEASY_Treatment", "Problem Treatment: " + td.otherVals.toString());
+                                    }
+                                    suggestions.add(suggestion);
+                                }
+                                initRecyclerView();
+                                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                            }
+                        });
+            }});
     }
 
     private void initRecyclerView(){
         RecyclerView recyclerView = findViewById(R.id.treatment_recycler_view);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(titles, descriptions, this);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(titles, descriptions, suggestions,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
